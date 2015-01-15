@@ -1,34 +1,33 @@
 package com.lxnj.car_filter;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
  * Created by yiguo on 1/12/15.
  */
 public class PropertiesReader {
-    private final static String propertyFilePath = "etc/luke.properties";
+    private final static String propertyFilePath = "/etc/luke.properties";
     private static Properties properties;
-    private static PropertiesReader propertiesReader = new PropertiesReader();
+    private static PropertiesReader propertiesReader;
 
     private PropertiesReader(){
         properties = new Properties();
-        FileInputStream fin;
+        InputStream fin;
         try {
-            fin = new FileInputStream(propertyFilePath);
+            fin = PropertiesReader.class.getResourceAsStream(propertyFilePath);
             properties.load(fin);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.out.println(new File(".").getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static PropertiesReader getInstance(){
+        if(propertiesReader == null)
+            propertiesReader = new PropertiesReader();
         return propertiesReader;
     }
 
@@ -37,7 +36,7 @@ public class PropertiesReader {
     }
 
     public String getConnectionStr(){
-        return properties.getProperty("DBCONNECTINGSTR");
+        return properties.getProperty("DB_CONNECTION_STR");
     }
 
     public String getUser(){
@@ -65,10 +64,10 @@ public class PropertiesReader {
     }
 
     public double getPriceMin(){
-        return Double.parseDouble(properties.getProperty("PRICCE_MIN"));
+        return Double.parseDouble(properties.getProperty("PRICE_MIN"));
     }
 
     public double getPriceMax(){
-        return Double.parseDouble(properties.getProperty("PRICCE_MAX"));
+        return Double.parseDouble(properties.getProperty("PRICE_MAX"));
     }
 }

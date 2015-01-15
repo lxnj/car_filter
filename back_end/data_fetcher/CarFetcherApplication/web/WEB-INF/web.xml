@@ -7,4 +7,8 @@
         <servlet-name>GetCarsServlet</servlet-name>
         <servlet-class>com.lxnj.car_filter.GetCarsServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCarsServlet</servlet-name>
+        <url-pattern>/lookup</url-pattern>
+    </servlet-mapping>
 </web-app>

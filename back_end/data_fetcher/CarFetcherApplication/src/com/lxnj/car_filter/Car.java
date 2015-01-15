@@ -23,12 +23,12 @@ public class Car {
             make = rs.getString("make");
             model = rs.getString("model");
             year = rs.getInt("year");
-            odometer = rs.getInt("odometer");
+            odometer = rs.getInt("miles");
             condition = rs.getDouble("condition");
             type = rs.getString("type");
             price = rs.getDouble("price");
             engine = rs.getString("engine");
-            ln = rs.getInt("ln");
+            ln = rs.getInt("lane");
             run = rs.getInt("run");
         } catch (SQLException e) {
             e.printStackTrace();
