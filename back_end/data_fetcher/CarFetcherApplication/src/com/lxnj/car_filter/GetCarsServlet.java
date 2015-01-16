@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Created by yiguo on 1/12/15.
@@ -14,34 +20,15 @@ import java.sql.*;
 public class GetCarsServlet extends HttpServlet {
 
     private static PropertiesReader propertiesReader = PropertiesReader.getInstance();
-    private static final String JDBC_DRIVER = propertiesReader.getJDBCDriver();
-    private static final String DBConnectionStr = propertiesReader.getConnectionStr();
-    private static final String User = propertiesReader.getUser();
-    private static final String Password = propertiesReader.getPassword();
     private Connection conn = null;
 
-    private void connectToDB() {
-        try {
-            Class.forName(JDBC_DRIVER).newInstance();
-            this.conn = DriverManager.getConnection(DBConnectionStr, User, Password);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (conn == null) {
-            connectToDB();
+            conn = DBConnector.getConnection();
         }
 
         String make = request.getParameter("make");
@@ -86,36 +73,48 @@ public class GetCarsServlet extends HttpServlet {
         querySB.append("select * from car\nwhere ");
 
         if (make != null) {
-            querySB.append("lower(make) = " + "'" + make + "'\n");
+            querySB.append("lower(make) = " + "'" + make + "' and\n");
         }
 
         if (model != null) {
-            querySB.append("and lower(model) = " + "'" + model + "'\n");
+            querySB.append("lower(model) = " + "'" + model + "' and\n");
         }
 
         if (year != 0) {
-            querySB.append("and year = " + year + "\n");
+            querySB.append("year = " + year + " and\n");
         }
 
-        querySB.append("and miles >= " + odometer_min + "\n");
-        querySB.append("and miles <= " + odometer_max + "\n");
+        querySB.append("miles >= " + odometer_min + " and\n");
+        querySB.append("miles <= " + odometer_max + " and\n");
 
         if (color != null) {
-            querySB.append("and lower(color) = " + "'" + color + "'\n");
+            querySB.append("lower(color) = " + "'" + color + "' and\n");
         }
 
-        querySB.append("and car.condition >= " + condition_min + "\n");
-        querySB.append("and car.condition <= " + condition_max + "\n");
+        querySB.append("car.condition >= " + condition_min + " and\n");
+        querySB.append("car.condition <= " + condition_max + " and\n");
 
         if (type != null) {
-            querySB.append("and lower(type) = " + type + "\n");
+            querySB.append("lower(type) = " + "'" + type + "' and\n");
         }
 
-        querySB.append("and price >= " + price_min + "\n");
-        querySB.append("and price <= " + price_max + ";\n");
+        querySB.append("price >= " + price_min + " and\n");
+        querySB.append("price <= " + price_max + " and\n");
 
+        String saleDate = request.getParameter("sale_date");
+        if(saleDate == null){
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date tomorrow = calendar.getTime();
+            saleDate = dateFormat.format(tomorrow);
+        }
+        querySB.append("saledate = " + "'" + saleDate + "';\n");
 
         Statement stmt;
+        PrintWriter writer = response.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+
         try {
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -133,14 +132,11 @@ public class GetCarsServlet extends HttpServlet {
                 candidateCars[i] = new Car(rs);
                 rs.next();
             }
-
+            mapper.writeValue(writer, candidateCars);
+            writer.flush();
+            writer.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        PrintWriter out = response.getWriter();
-        out.print(querySB.toString());
-        out.flush();
-        out.close();
     }
 }

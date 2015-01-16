@@ -21,6 +21,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.18-bin" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-5.1.18-bin" level="project" />
+    <orderEntry type="library" name="jackson-all-1.8.10" level="project" />
+    <orderEntry type="library" name="bonecp-0.8.0.RELEASE" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.5" level="project" />
+    <orderEntry type="library" name="guava-18.0" level="project" />
   </component>
 </module>
 
