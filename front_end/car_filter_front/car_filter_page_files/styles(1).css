@@ -585,6 +585,7 @@ body {
   top:130px;
   width:965px;
   height:605px;
+  visibility: hidden;
 }
 #u41 {
   position:absolute;
@@ -4341,4 +4342,99 @@ body {
   top:10px;
   width:136px;
   word-wrap:break-word;
+}
+
+
+.lx_table_cell {
+  width:122px;
+  height:30px;
+  text-align:center;
+}
+
+.car_table_class {
+}
+.car_table_class td {
+}
+td.price {
+  text-align: right;
+}
+td.odometer {
+  text-align: right;
+}
+
+.car_table_class th {
+}
+
+#slider {
+  position:absolute;
+  left:150px;
+  top:245px;
+  width:125px;
+}
+
+#slider_description {
+  position: absolute;
+  left: 280px;
+  top: 245px;
+  width: 30px;
+  font-family: 'ArialMT', 'Arial';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 13px;
+}
+
+#daytabs {
+
+  position:absolute;
+  left:370px;
+  top:75px;
+  width:880px;
+  min-height: 350px;
+}
+
+/* tables */
+table.tablesorter {
+  font-family:arial;
+  background-color: #CDCDCD;
+  margin:10px 0pt 15px;
+  font-size: 10pt;
+  width: 100%;
+  text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+  background-color: #e6EEEE;
+  border: 1px solid #FFF;
+  font-size: 10pt;
+  padding: 4px;
+}
+table.tablesorter thead tr .header {
+  background-image: url(bg.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
+}
+table.tablesorter tbody td {
+  color: #3D3D3D;
+  padding: 4px;
+  background-color: #FFF;
+  vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+  background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+  background-image: url(asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+  background-image: url(desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #8dbdd8;
+}
+
+.pager {
+  font-family: 'ArialMT', 'Arial';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 13px;
 }
