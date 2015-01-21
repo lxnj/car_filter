@@ -7,6 +7,8 @@ import MySQLdb
 import traceback
 import datetime
 
+import argparse
+
 SITE_URL = "https://www.manheim.com/"
 USERNAME = "5624081194"
 PASSWORD = "569444"
@@ -28,7 +30,7 @@ class xDB(object):
         self.__conn = None
         self.cursor = None
     def connect(self, host="localhost", port=3306,
-                user="root", password="", dbname="carinfo"):
+                user="root", password="", dbname="lxnj"):
         #host, port, user, password, dbname = parseConfig()
         self.__conn = MySQLdb.connect(host=host, port=port,
                                       user=user, passwd=password, db=dbname)
@@ -54,13 +56,15 @@ class xDB(object):
                                    car["year"], car["make"], car["model"], car["abstract"],
                                    car["condition"], car["engine"], car["type"],
                                    car["miles"], car["color"], car["vin"], car["price"], car["saleDate"]))
-            print 'vehicle done.'
+            #print 'vehicle done.'
         except Exception, e:
-            print "Failed an item:"
-            print car
-            traceback.print_exc(file=sys.stdout)
+            # print "Failed an item:"
+            # print car
+            # traceback.print_exc(file=sys.stdout)
+            return 0
         #self.__conn.commit()
         #self.cursor.executemany()
+        return 1
 
 def login():
     s = requests.session()
@@ -128,13 +132,13 @@ def parseRow(tr):
             "saleDate": saleDate,
         }
     except Exception as e:
-        print '=' * 80
-        print tr
-        print '-----------'
-        traceback.print_exc(file=sys.stdout)
-        print '-----------'
-        print e
-        print '==========='
+        # print '=' * 80
+        # print tr
+        # print '-----------'
+        # traceback.print_exc(file=sys.stdout)
+        # print '-----------'
+        # print e
+        # print '==========='
         return None
 
 
@@ -144,57 +148,16 @@ def parsePage(html_doc, db):
     soup = BeautifulSoup(html_doc)
     trs = soup.findAll("tr", "vehicleResultRow")
     count = 0
+    score = 0
     for tr in trs:
-        print 'vehicle no.', count
+        #print 'vehicle no.', count
         count += 1
         #print tr
         row = parseRow(tr)
         if row:
-            print row
-            db.insertSingleCarInfo(row)
-
-def testParsePage():
-    try:
-        with open('output.txt', 'r') as f:
-            html_doc = ''.join([line for line in f.readlines()])
-    except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
-        return False
-    db = xDB()
-    db.connect()
-    parsePage(html_doc, db)
-    db.close()
-    return
-    #Feature List: 1. Ln (Invisible) 2. Run 3. Make 4. Model 5. Condition
-    # 6. Engine 7. Type 8. Miles 9. Color 10. Vin 11. Price
-    soup = BeautifulSoup(html_doc)
-    trs = soup.findAll("tr", "vehicleResultRow")
-    tds = trs[0].find_all('td')
-    for i in range(len(tds)):
-        print i, tds[i].getText().strip()
-    s = tds[0].find('a')
-    s.attrs
-    s.attrs['data-unique-id']
-    s.attrs['data-vin']
-    s.attrs['data-sale-date']
-
-    jsparams=re.findall('wtWorkbookAdd\((.*?)\)', s.attrs['href'])[0]
-    jsparams = map(lambda i: i.strip()[1:-1], jsparams.split(','))
-    {
-        "carId": s.attrs['data-unique-id'],
-        "saleDate": s.attrs['data-sale-date'],
-        "vehicleId": jsparams[4],
-        "vin": jsparams[6],
-        "year": jsparams[7],
-        "make": jsparams[8],
-        "model": jsparams[9]
-    }
-    tds[1].getText().strip()  # u'97/45'  or  u'OVE'
-    tds[2].getText().strip()  # 2015 Chevrolet G2500 CARGO 4X2
-    tds[3].find('span', 'cr').getText()  # u'CR 1.0'
-    tds[4].getText().strip()  # u'8/A'
-    tds[5].getText().strip()  # u'5,746' Odo, miles
-    tds[6].getText().strip()  # u'White'
-    tds[8].getText().strip()  # u'Not Available' : MMR
+            #print row
+            score += db.insertSingleCarInfo(row)
+    return score
 
 def fetchPage(session, saleDate, pageno = 1):
     offset = 250 * (pageno - 1)
@@ -280,7 +243,7 @@ def parseNumberOfVehicles(html_doc):
     else:
         return None
 
-def main():
+def crawlDataOfDay(daysFromToday=0):
     db = xDB()
     db.connect()
     session = login()
@@ -288,20 +251,30 @@ def main():
         exit(1)
     print "Login success!"
     saleDate = time.strftime("%m/%d/%Y", time.localtime())  #"01/07/2015"
-    targetDate = datetime.date.today() + datetime.timedelta(days=0)
+    targetDate = datetime.date.today() + datetime.timedelta(days=daysFromToday)
     saleDate = targetDate.strftime("%m/%d/%Y")  #"01/07/2015"
     html_doc = fetchPage(session, saleDate)
-    parsePage(html_doc, db)
     npages = (parseNumberOfVehicles(html_doc) - 1) / 250 + 1
-    print "Total %d pages." % npages
+    print "Total %d pages for %s." % (npages, saleDate)
+
+    pageno = 1
+    print "Processing page %d:" % pageno
+    numOfInsertedItems = parsePage(html_doc, db)
+    print "Page %d complete! Inserted %d item(s)." % (pageno, numOfInsertedItems)
+
     for pageno in range(2, npages+1):
-        print "Processing page %d!" % pageno
+        print "Processing page %d:" % pageno
         html_doc = fetchPage(session, saleDate, pageno)
-        parsePage(html_doc, db)
-        print "Page %d complete!" % pageno
+        numOfInsertedItems = parsePage(html_doc, db)
+        print "Page %d complete! Inserted %d item(s)." % (pageno, numOfInsertedItems)
 
     db.close()
 
 if __name__ == "__main__":
     # testParsePage()
-    main()
+    parser = argparse.ArgumentParser(description='Crawler for Manheim.com')
+    parser.add_argument('-d', action="store", dest="daysFromToday", type=int)
+    opts = parser.parse_args(sys.argv[1:])
+    if opts.daysFromToday == None:
+        opts.daysFromToday = 0
+    crawlDataOfDay(opts.daysFromToday)
