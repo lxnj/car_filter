@@ -1046,33 +1046,35 @@ background-color: #8dbdd8;
 }
 
 .table_lane {
-  min-width: 34px;
+  min-width: 41px;
 }
 .table_run {
-  min-width: 30px;
+  min-width: 36px;
 }
 .table_make {
+  min-width: 43px;
 }
 .table_model {
+  min-width: 49px;
 }
 .table_year {
-  min-width: 32px;
+  min-width: 40px;
 }
 
 .table_engine {
-  min-width: 45px;
+  min-width: 55px;
 }
 .table_type {
-  min-width: 33px;
+  min-width: 41px;
 }
 .table_mileage {
-  min-width: 50px;
+  min-width: 56px;
 }
 .table_condition {
-  min-width: 25px;
+  min-width: 36px;
 }
 .table_color {
-  min-width: 37px;
+  min-width: 46px;
 }
 .table_vin {
 

@@ -107,10 +107,10 @@ $(function() {
                 .append($("<td></td>").text(item['engine']))
                 .append($("<td></td>").text(item['type']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
-                .append($('<td title="Certificated condition report by mechanic (0 ~ 5)"></td>').text(item['condition']))
+                .append($('<td></td>').text(item['condition']))
                 .append($("<td></td>").text(item['color']))
                 .append($("<td></td>").text(item['vin']))
-                .append($('<td title="Final Price = Bid + Service Fee ($500 ~ $550)" class="price"></td>').text(numberWithCommas(item['price']))))
+                .append($('<td class="price"></td>').text("$" + numberWithCommas(item['price']))))
             ;
           });
           panel.find(".car_table_class").trigger("update");
