@@ -35,10 +35,10 @@ $(function() {
 
   // set day of week for tabs' names
   (function() {
-    var weekday= ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var weekday= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var actualDate = new Date(); // actual date
     var i;
-    for (i = 2; i <= $("#daytabs").find("li").length; ++i) {
+    for (i = 0; i <= $("#daytabs").find("li").length; ++i) {
       var nth = new Date(actualDate.getFullYear(),
                     actualDate.getMonth(),
                     actualDate.getDate() + i)
@@ -51,7 +51,7 @@ $(function() {
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
@@ -99,6 +99,7 @@ $(function() {
           $.each(data, function(key,item){
             panel.find(".car_table_class tbody")
               .append($("<tr></tr>")
+                .append($("<td></td>").text(item['ln']))
                 .append($("<td></td>").text(item['run']))
                 .append($("<td></td>").text(item['make']))
                 .append($("<td></td>").text(item['model']))
@@ -106,11 +107,10 @@ $(function() {
                 .append($("<td></td>").text(item['engine']))
                 .append($("<td></td>").text(item['type']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
-                .append($("<td></td>").text(item['condition']))
+                .append($('<td title="Certificated condition report by mechanic (0 ~ 5)"></td>').text(item['condition']))
                 .append($("<td></td>").text(item['color']))
-                .append($("<td></td>").text('bid'))
                 .append($("<td></td>").text(item['vin']))
-                .append($('<td class="price"></td>').text(numberWithCommas(item['price']))))
+                .append($('<td title="Final Price = Bid + Service Fee ($500 ~ $550)" class="price"></td>').text(numberWithCommas(item['price']))))
             ;
           });
           panel.find(".car_table_class").trigger("update");
@@ -124,7 +124,7 @@ $(function() {
         } else {
           panel.find(".car_table_class tbody")
             .append($("<tr></tr>")
-              .append($('<td colspan="12"></td>').text("No data!")));
+              .append($('<td colspan="12"></td>').text("There is no car on this day satisfied.")));
         }
         
       },

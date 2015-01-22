@@ -168,23 +168,9 @@ body {
 #u10 {
   position:absolute;
   left:70px;
-  top:459px;
+  top:446px;
   width:100px;
   height:30px;
-}
-#u10_img {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:100px;
-  height:30px;
-}
-#u11 {
-  position:absolute;
-  left:2px;
-  top:8px;
-  width:96px;
-  word-wrap:break-word;
 }
 #u12 {
   position:absolute;
@@ -1058,3 +1044,45 @@ background-color: #8dbdd8;
   font-style: normal;
   font-size: 13px;
 }
+
+.table_lane {
+  min-width: 34px;
+}
+.table_run {
+  min-width: 30px;
+}
+.table_make {
+}
+.table_model {
+}
+.table_year {
+  min-width: 32px;
+}
+
+.table_engine {
+  min-width: 45px;
+}
+.table_type {
+  min-width: 33px;
+}
+.table_mileage {
+  min-width: 50px;
+}
+.table_condition {
+  min-width: 25px;
+}
+.table_color {
+  min-width: 37px;
+}
+.table_vin {
+
+}
+.table_bid {
+
+}
+
+.search_button {
+  width: 100px;
+  height: 30px;
+}
+

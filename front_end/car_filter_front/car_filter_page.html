@@ -101,8 +101,6 @@
       <div id="u1" class="ax_droplist">
         <select id="u1_input" style="-webkit-appearance: menulist-button; border-color: rgb(153, 153, 153);" name="model">
           <option selected="" value="Model">Model</option>
-          <option value="Accord">Accord</option>
-          <option value="Civic">Civic</option>
         </select>
       </div>
 
@@ -110,8 +108,15 @@
       <div id="u2" class="ax_droplist">
         <select id="u2_input" style="-webkit-appearance: menulist-button; border-color: rgb(153, 153, 153);" name="year">
           <option selected="" value="Year">Year</option>
-          <option value="2013">2013</option>
           <option value="2014">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
+          <option value="2009">2009</option>
+          <option value="2008">2008</option>
+          <option value="2007">2007</option>
+          <option value="Before 2006">Before 2006</option>
         </select>
       </div>
 
@@ -153,13 +158,7 @@
 
       <!-- Unnamed (Shape) -->
       <div id="u10" class="ax_shape">
-        <img id="u10_img" class="img " src="./car_filter_page_files/u10.png">
-        <!-- Unnamed () -->
-        <div id="u11" class="text">
-          <p><span>Search</span></p>
-        </div>
-      </div>
-
+          <button class="search_button" onclick="return false;">Search</button> </div>
       <!-- Unnamed (Text Field) -->
       <div id="u12" class="ax_text_field">
         <input id="u12_input" type="text" value="Type: " readonly="">
@@ -200,7 +199,7 @@
             <p><span>All</span></p>
           </div>
         </label>
-        <input id="u18_input" type="checkbox" value="all">
+        <input id="u18_input" type="checkbox" value="all" name="color" checked="checked">
       </div>
 
       <!-- Unnamed (Checkbox) -->
@@ -285,10 +284,10 @@
         <label for="u34_input">
           <!-- Unnamed () -->
           <div id="u35" class="text">
-            <p><span>Brown</span></p>
+            <p><span>Gold</span></p>
           </div>
         </label>
-        <input id="u34_input" type="checkbox" value="brown" name="color">
+        <input id="u34_input" type="checkbox" value="gold" name="color">
       </div>
 
       <!-- Unnamed (Text Field) -->
@@ -590,18 +589,18 @@
           <table id="cars_table_0" class="ax_table car_table_class tablesorter">
             <thead>
               <tr>
-                <th scope="col">Run</th>
-                <th scope="col">Make</th>
-                <th scope="col">Model</th>
-                <th scope="col">Year</th>
-                <th scope="col">Engine</th>
-                <th scope="col">Type</th>
-                <th scope="col">Odometer</th>
-                <th scope="col">CR</th>
-                <th scope="col">Color</th>
-                <th scope="col">Bid</th>
-                <th scope="col">VIN</th>
-                <th scope="col">Price</th>
+                <th scope="col" class="table_lane">Lane</th>
+                <th scope="col" class="table_run">Run</th>
+                <th scope="col" class="table_make">Make</th>
+                <th scope="col" class="table_model">Model</th>
+                <th scope="col" class="table_year">Year</th>
+                <th scope="col" class="table_engine">Engine</th>
+                <th scope="col" class="table_type">Type</th>
+                <th scope="col" class="table_mileage">Mileage</th>
+                <th scope="col" class="table_condition">CR</th>
+                <th scope="col" class="table_color">Color</th>
+                <th scope="col" class="table_vin">VIN</th>
+                <th scope="col" class="table_bid">Bid</th>
 
               </tr>
             </thead>
@@ -644,18 +643,18 @@
           <table id="cars_table_1" class="ax_table car_table_class tablesorter">
             <thead>
               <tr>
-                <th scope="col">Run</th>
-                <th scope="col">Make</th>
-                <th scope="col">Model</th>
-                <th scope="col">Year</th>
-                <th scope="col">Engine</th>
-                <th scope="col">Type</th>
-                <th scope="col">Odometer</th>
-                <th scope="col">CR</th>
-                <th scope="col">Color</th>
-                <th scope="col">Bid</th>
-                <th scope="col">VIN</th>
-                <th scope="col">Price</th>
+                <th scope="col" class="table_lane">Lane</th>
+                <th scope="col" class="table_run">Run</th>
+                <th scope="col" class="table_make">Make</th>
+                <th scope="col" class="table_model">Model</th>
+                <th scope="col" class="table_year">Year</th>
+                <th scope="col" class="table_engine">Engine</th>
+                <th scope="col" class="table_type">Type</th>
+                <th scope="col" class="table_mileage">Mileage</th>
+                <th scope="col" class="table_condition">CR</th>
+                <th scope="col" class="table_color">Color</th>
+                <th scope="col" class="table_vin">VIN</th>
+                <th scope="col" class="table_bid">Bid</th>
 
               </tr>
             </thead>
@@ -698,18 +697,18 @@
           <table id="cars_table_2" class="ax_table car_table_class tablesorter">
             <thead>
               <tr>
-                <th scope="col">Run</th>
-                <th scope="col">Make</th>
-                <th scope="col">Model</th>
-                <th scope="col">Year</th>
-                <th scope="col">Engine</th>
-                <th scope="col">Type</th>
-                <th scope="col">Odometer</th>
-                <th scope="col">CR</th>
-                <th scope="col">Color</th>
-                <th scope="col">Bid</th>
-                <th scope="col">VIN</th>
-                <th scope="col">Price</th>
+                <th scope="col" class="table_lane">Lane</th>
+                <th scope="col" class="table_run">Run</th>
+                <th scope="col" class="table_make">Make</th>
+                <th scope="col" class="table_model">Model</th>
+                <th scope="col" class="table_year">Year</th>
+                <th scope="col" class="table_engine">Engine</th>
+                <th scope="col" class="table_type">Type</th>
+                <th scope="col" class="table_mileage">Mileage</th>
+                <th scope="col" class="table_condition">CR</th>
+                <th scope="col" class="table_color">Color</th>
+                <th scope="col" class="table_vin">VIN</th>
+                <th scope="col" class="table_bid">Bid</th>
 
               </tr>
             </thead>
@@ -752,18 +751,18 @@
           <table id="cars_table_3" class="ax_table car_table_class tablesorter">
             <thead>
               <tr>
-                <th scope="col">Run</th>
-                <th scope="col">Make</th>
-                <th scope="col">Model</th>
-                <th scope="col">Year</th>
-                <th scope="col">Engine</th>
-                <th scope="col">Type</th>
-                <th scope="col">Odometer</th>
-                <th scope="col">CR</th>
-                <th scope="col">Color</th>
-                <th scope="col">Bid</th>
-                <th scope="col">VIN</th>
-                <th scope="col">Price</th>
+                <th scope="col" class="table_lane">Lane</th>
+                <th scope="col" class="table_run">Run</th>
+                <th scope="col" class="table_make">Make</th>
+                <th scope="col" class="table_model">Model</th>
+                <th scope="col" class="table_year">Year</th>
+                <th scope="col" class="table_engine">Engine</th>
+                <th scope="col" class="table_type">Type</th>
+                <th scope="col" class="table_mileage">Mileage</th>
+                <th scope="col" class="table_condition">CR</th>
+                <th scope="col" class="table_color">Color</th>
+                <th scope="col" class="table_vin">VIN</th>
+                <th scope="col" class="table_bid">Bid</th>
 
               </tr>
             </thead>
@@ -806,18 +805,18 @@
           <table id="cars_table_3" class="ax_table car_table_class tablesorter">
             <thead>
               <tr>
-                <th scope="col">Run</th>
-                <th scope="col">Make</th>
-                <th scope="col">Model</th>
-                <th scope="col">Year</th>
-                <th scope="col">Engine</th>
-                <th scope="col">Type</th>
-                <th scope="col">Odometer</th>
-                <th scope="col">CR</th>
-                <th scope="col">Color</th>
-                <th scope="col">Bid</th>
-                <th scope="col">VIN</th>
-                <th scope="col">Price</th>
+                <th scope="col" class="table_lane">Lane</th>
+                <th scope="col" class="table_run">Run</th>
+                <th scope="col" class="table_make">Make</th>
+                <th scope="col" class="table_model">Model</th>
+                <th scope="col" class="table_year">Year</th>
+                <th scope="col" class="table_engine">Engine</th>
+                <th scope="col" class="table_type">Type</th>
+                <th scope="col" class="table_mileage">Mileage</th>
+                <th scope="col" class="table_condition">CR</th>
+                <th scope="col" class="table_color">Color</th>
+                <th scope="col" class="table_vin">VIN</th>
+                <th scope="col" class="table_bid">Bid</th>
 
               </tr>
             </thead>
