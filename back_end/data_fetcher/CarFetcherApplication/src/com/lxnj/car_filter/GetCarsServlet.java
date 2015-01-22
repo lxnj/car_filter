@@ -47,7 +47,7 @@ public class GetCarsServlet extends HttpServlet {
             odometer_max = Math.min(Integer.parseInt(request.getParameter("odometer_max")), odometer_max);
         }
 
-        String color = request.getParameter("color");
+        String[] colors = request.getParameterValues("color");
 
         double condition_min = propertiesReader.getConditionMin();
         if(request.getParameter("condition_min") != null) {
@@ -81,14 +81,22 @@ public class GetCarsServlet extends HttpServlet {
         }
 
         if (year != 0) {
-            querySB.append("year = " + year + " and\n");
+            if(year == -2006){
+                querySB.append("year <= 2006 and\n");
+            }
+            else
+                querySB.append("year >= " + year + " and\n");
         }
 
         querySB.append("miles >= " + odometer_min + " and\n");
         querySB.append("miles <= " + odometer_max + " and\n");
 
-        if (color != null) {
-            querySB.append("lower(color) = " + "'" + color + "' and\n");
+        if (colors != null) {
+            querySB.append("(\n");
+            for(int i = 0; i < colors.length - 1; i++){
+                querySB.append("lower(color) = " + "'" + colors[i] + "' or\n");
+            }
+            querySB.append("lower(color) = " + "'" + colors[colors.length - 1] + "'\n) and \n");
         }
 
         querySB.append("car.condition >= " + condition_min + " and\n");

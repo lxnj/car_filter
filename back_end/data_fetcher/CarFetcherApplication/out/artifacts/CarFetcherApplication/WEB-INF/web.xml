@@ -11,6 +11,10 @@
         <servlet-name>GetModelsByMakeServlet</servlet-name>
         <servlet-class>com.lxnj.car_filter.GetModelsByMakeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetAllActiveMakeServlet</servlet-name>
+        <servlet-class>com.lxnj.car_filter.GetAllActiveMakeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetCarsServlet</servlet-name>
         <url-pattern>/lookup</url-pattern>
@@ -18,5 +22,9 @@
     <servlet-mapping>
         <servlet-name>GetModelsByMakeServlet</servlet-name>
         <url-pattern>/getModels</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAllActiveMakeServlet</servlet-name>
+        <url-pattern>/getAllMakes</url-pattern>
     </servlet-mapping>
 </web-app>
