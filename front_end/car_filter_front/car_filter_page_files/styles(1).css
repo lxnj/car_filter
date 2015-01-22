@@ -968,7 +968,8 @@ td.odometer {
   text-align: right;
 }
 
-.car_table_class th {
+table.tablesorter.car_table_class thead tr th {
+    padding-right: 15px;
 }
 
 #slider {
@@ -1043,44 +1044,6 @@ background-color: #8dbdd8;
   font-weight: 400;
   font-style: normal;
   font-size: 13px;
-}
-
-.table_lane {
-  min-width: 41px;
-}
-.table_run {
-  min-width: 36px;
-}
-.table_make {
-  min-width: 43px;
-}
-.table_model {
-  min-width: 49px;
-}
-.table_year {
-  min-width: 40px;
-}
-
-.table_engine {
-  min-width: 55px;
-}
-.table_type {
-  min-width: 41px;
-}
-.table_mileage {
-  min-width: 56px;
-}
-.table_condition {
-  min-width: 36px;
-}
-.table_color {
-  min-width: 46px;
-}
-.table_vin {
-
-}
-.table_bid {
-
 }
 
 .search_button {
