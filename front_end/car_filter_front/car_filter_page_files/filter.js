@@ -51,7 +51,7 @@ $(function() {
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
