@@ -57,7 +57,7 @@ $(function() {
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
@@ -116,7 +116,7 @@ $(function() {
         } else {
           panel.find(".car_table_class tbody")
             .append($("<tr></tr>")
-              .append($('<td colspan="12"></td>').text("There is no car on this day satisfied.")));
+              .append($('<td colspan="12"></td>').text("There is no car on this day satisfied now. Coming soon.")));
         }
         
       },
