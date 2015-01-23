@@ -35,23 +35,29 @@ $(function() {
 
   // set day of week for tabs' names
   (function() {
-    var weekday= ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var weekday= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var actualDate = new Date(); // actual date
-    var i;
-    for (i = 2; i <= $("#daytabs").find("li").length; ++i) {
-      var nth = new Date(actualDate.getFullYear(),
-                    actualDate.getMonth(),
-                    actualDate.getDate() + i)
-              .getDay();
+    var i, daysFromToday;
+    for (i = 0, daysFromToday = 0; i <= $("#daytabs").find("li").length; ++daysFromToday) {
+      var date = new Date(actualDate.getFullYear(),
+                          actualDate.getMonth(),
+                          actualDate.getDate() + daysFromToday); 
+      var nth = date.getDay();
+      if (nth == 0 || nth == 6) {
+        continue;
+      }
       $($("#daytabs").find("a")[i])
         .text(weekday[nth]);
+      $($("#daytabs .tab_panel")[i])
+        .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
+      i += 1;
     }
   })();
 
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
@@ -66,28 +72,14 @@ $(function() {
     return serialized;
   }
 
-  function getDateStr(daysFromToday) {
-    daysFromToday = parseInt(daysFromToday);
-    if (isNaN(daysFromToday)) {
-      daysFromToday = 1;
-    }
-    var actualDate = new Date();
-    var date = new Date(actualDate.getFullYear(),
-                        actualDate.getMonth(),
-                        actualDate.getDate()+daysFromToday);
-    return $.datepicker.formatDate('yy-mm-dd', date); //2015-01-19
-  }
-
-
   function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   // fetch car list from server and fill in the correct table
   function fetchCars(tab, panel) {
-    var daysFromTodayStr = tab.find('a').attr('href').split('-')[1] || '1';
     var formparams = fetchFormParameters();
-    var serialized = 'sale_date=' + getDateStr(daysFromTodayStr) + (formparams ? "&" + formparams : "");
+    var serialized = 'sale_date=' + panel.attr('date-data') + (formparams ? "&" + formparams : "");
     panel.find(".car_table_class tbody").find('tr').remove();
     panel.find(".car_table_class tbody")
       .append($("<tr></tr>")
@@ -99,6 +91,7 @@ $(function() {
           $.each(data, function(key,item){
             panel.find(".car_table_class tbody")
               .append($("<tr></tr>")
+                .append($("<td></td>").text(item['ln']))
                 .append($("<td></td>").text(item['run']))
                 .append($("<td></td>").text(item['make']))
                 .append($("<td></td>").text(item['model']))
@@ -106,11 +99,10 @@ $(function() {
                 .append($("<td></td>").text(item['engine']))
                 .append($("<td></td>").text(item['type']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
-                .append($("<td></td>").text(item['condition']))
+                .append($('<td></td>').text(item['condition']))
                 .append($("<td></td>").text(item['color']))
-                .append($("<td></td>").text('bid'))
                 .append($("<td></td>").text(item['vin']))
-                .append($('<td class="price"></td>').text(numberWithCommas(item['price']))))
+                .append($('<td class="price"></td>').text("$" + numberWithCommas(item['price']))))
             ;
           });
           panel.find(".car_table_class").trigger("update");
@@ -124,7 +116,7 @@ $(function() {
         } else {
           panel.find(".car_table_class tbody")
             .append($("<tr></tr>")
-              .append($('<td colspan="12"></td>').text("No data!")));
+              .append($('<td colspan="12"></td>').text("There is no car on this day satisfied now. Coming soon.")));
         }
         
       },

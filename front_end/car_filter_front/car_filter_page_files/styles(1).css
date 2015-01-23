@@ -168,36 +168,22 @@ body {
 #u10 {
   position:absolute;
   left:70px;
-  top:459px;
+  top:446px;
   width:100px;
   height:30px;
-}
-#u10_img {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:100px;
-  height:30px;
-}
-#u11 {
-  position:absolute;
-  left:2px;
-  top:8px;
-  width:96px;
-  word-wrap:break-word;
 }
 #u12 {
   position:absolute;
   left:80px;
   top:195px;
-  width:70px;
+  width:50px;
   height:25px;
 }
 #u12_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:70px;
+  width:50px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -335,7 +321,6 @@ body {
   position:absolute;
   left:16px;
   top:0px;
-  width:33px;
   word-wrap:break-word;
 }
 #u18_input {
@@ -345,7 +330,7 @@ body {
 }
 #u20 {
   position:absolute;
-  left:200px;
+  left:205px;
   top:337px;
   width:61px;
   height:15px;
@@ -392,7 +377,6 @@ body {
   position:absolute;
   left:16px;
   top:0px;
-  width:33px;
   word-wrap:break-word;
 }
 #u24_input {
@@ -402,7 +386,7 @@ body {
 }
 #u26 {
   position:absolute;
-  left:200px;
+  left:205px;
   top:367px;
   width:51px;
   height:15px;
@@ -441,7 +425,7 @@ body {
 #u30 {
   position:absolute;
   left:149px;
-  top:399px;
+  top:397px;
   width:51px;
   height:15px;
 }
@@ -449,7 +433,6 @@ body {
   position:absolute;
   left:16px;
   top:0px;
-  width:33px;
   word-wrap:break-word;
 }
 #u30_input {
@@ -459,8 +442,8 @@ body {
 }
 #u32 {
   position:absolute;
-  left:198px;
-  top:398px;
+  left:205px;
+  top:397px;
   width:63px;
   height:15px;
 }
@@ -982,7 +965,8 @@ td.odometer {
   text-align: right;
 }
 
-.car_table_class th {
+table.tablesorter.car_table_class thead tr th {
+    padding-right: 15px;
 }
 
 #slider {
@@ -1006,7 +990,7 @@ td.odometer {
 #daytabs {
 
   position:absolute;
-  left:370px;
+  left:360px;
   top:75px;
   width:880px;
   min-height: 350px;
@@ -1058,3 +1042,9 @@ background-color: #8dbdd8;
   font-style: normal;
   font-size: 13px;
 }
+
+.search_button {
+  width: 100px;
+  height: 30px;
+}
+
