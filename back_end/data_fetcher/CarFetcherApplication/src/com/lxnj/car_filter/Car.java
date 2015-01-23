@@ -2,6 +2,7 @@ package com.lxnj.car_filter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Created by yiguo on 1/12/15.
@@ -14,7 +15,7 @@ public class Car {
     int odometer;
     double condition;
     String type;
-    double price;
+    String price;
     String engine;
     int ln;
     int run;
@@ -77,11 +78,11 @@ public class Car {
         this.type = type;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -135,7 +136,20 @@ public class Car {
             condition = rs.getDouble("condition");
             type = rs.getString("type");
             color = rs.getString("color");
-            price = rs.getDouble("price");
+
+            if(color.toLowerCase().equals("not avail"))
+                color = "Not Available";
+
+            price = rs.getString("price");
+            if(price.toLowerCase().contains("not ava")){
+                price = "Not Available";
+            }
+            else {
+                int extra = (int)Math.max(0, Math.ceil((Double.parseDouble(price) - 5000)/5000.0))*50 + 300;
+                int finalPrince = Integer.parseInt(price) + extra;
+                price = finalPrince + "";
+            }
+
             engine = rs.getString("engine");
             ln = rs.getInt("lane");
             saleDate = rs.getDate("saleDate").toString();
