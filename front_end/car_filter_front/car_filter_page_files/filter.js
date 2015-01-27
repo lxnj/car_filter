@@ -104,18 +104,21 @@ $(function() {
                 .append($('<td class="price"></td>').text("$" + numberWithCommas(item['price']))))
             ;
           });
-          panel.find(".car_table_class").trigger("update");
+        }
+        panel.find(".car_table_class").trigger("update");
+        setTimeout(function () {
+          panel.find(".car_table_class")
+            .tablesorterPager({
+              container: $(".pager", panel),
+              positionFixed: false
+            });
+        }, 0);
+        if (!(data && data.length)) {
           setTimeout(function () {
-            panel.find(".car_table_class")
-              .tablesorterPager({
-                container: $(".pager", panel),
-                positionFixed: false
-              });
-          }, 0);
-        } else {
-          panel.find(".car_table_class tbody")
+            panel.find(".car_table_class tbody")
             .append($("<tr></tr>")
               .append($('<td colspan="12"></td>').text("There is no car on this day satisfied now. Coming soon.")));
+          }, 200);
         }
         
       },
@@ -149,4 +152,3 @@ $(function() {
   //   .tablesorterPager({container: $("#pager-4")});
 
 });
-

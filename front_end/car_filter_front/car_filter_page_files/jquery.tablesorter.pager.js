@@ -103,7 +103,7 @@
 				
 				$(table).trigger("applyWidgets");
 				
-				if( c.page >= c.totalPages ) {
+				if( c.page > c.totalPages ) {
         			moveToLastPage(table);
 				}
 				
