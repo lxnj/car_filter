@@ -16,14 +16,14 @@ body {
   position:absolute;
   left:70px;
   top:76px;
-  width:80px;
+  width:125px;
   height:22px;
 }
 #u0_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:80px;
+  width:125px;
   height:22px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -37,16 +37,16 @@ body {
 }
 #u1 {
   position:absolute;
-  left:160px;
+  left:215px;
   top:76px;
-  width:80px;
+  width:115px;
   height:22px;
 }
 #u1_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:80px;
+  width:115px;
   height:22px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -56,29 +56,6 @@ body {
   color:#000000;
 }
 #u1_input:disabled {
-  color:grayText;
-}
-#u2 {
-  position:absolute;
-  left:250px;
-  top:76px;
-  width:80px;
-  height:22px;
-}
-#u2_input {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:80px;
-  height:22px;
-  font-family:'ArialMT', 'Arial';
-  font-weight:400;
-  font-style:normal;
-  font-size:13px;
-  text-decoration:none;
-  color:#000000;
-}
-#u2_input:disabled {
   color:grayText;
 }
 #u3 {
@@ -129,41 +106,24 @@ body {
 }
 #u6 {
   position:absolute;
-  left:150px;
+  left:140px;
   top:200px;
-  width:100px;
-  height:15px;
+  width:75px;
+  height:25px;
 }
 #u7 {
   position:absolute;
-  left:16px;
-  top:0px;
-  width:82px;
-  word-wrap:break-word;
-}
-#u6_input {
-  position:absolute;
-  left:-3px;
-  top:-2px;
+  left:218px;
+  top:200px;
+  width:20px;
+  height:25px;
 }
 #u8 {
   position:absolute;
-  left:250px;
+  left:240px;
   top:200px;
-  width:70px;
+  width:75px;
   height:15px;
-}
-#u9 {
-  position:absolute;
-  left:16px;
-  top:0px;
-  width:52px;
-  word-wrap:break-word;
-}
-#u8_input {
-  position:absolute;
-  left:-3px;
-  top:-2px;
 }
 #u10 {
   position:absolute;
@@ -197,7 +157,7 @@ body {
 }
 #u13 {
   position:absolute;
-  left:222px;
+  left:218px;
   top:156px;
   width:20px;
   height:25px;
@@ -221,7 +181,7 @@ body {
 #u14 {
   position:absolute;
   left:79px;
-  top:240px;
+  top:287px;
   width:70px;
   height:25px;
 }
@@ -244,7 +204,7 @@ body {
 #u15 {
   position:absolute;
   left:81px;
-  top:287px;
+  top:240px;
   width:70px;
   height:25px;
 }
@@ -266,8 +226,8 @@ body {
 }
 #u16 {
   position:absolute;
-  left:223px;
-  top:286px;
+  left:218px;
+  top:245px;
   width:20px;
   height:25px;
 }
@@ -480,16 +440,16 @@ body {
 }
 #u36 {
   position:absolute;
-  left:150px;
+  left:140px;
   top:156px;
-  width:70px;
+  width:75px;
   height:25px;
 }
 #u36_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:70px;
+  width:75px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -499,18 +459,48 @@ body {
   color:#000000;
   text-align:left;
 }
+.dropdown_input {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:75px;
+  height:25px;
+  font-family:'ArialMT', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+  text-align:left;
+}
+.range_separator {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:20px;
+  height:25px;
+  font-family:'ArialMT', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+  text-align:left;
+  border-color:transparent;
+  outline-style:none;
+}
 #u37 {
   position:absolute;
-  left:245px;
+  left:240px;
   top:156px;
-  width:70px;
+  width:75px;
   height:25px;
 }
 #u37_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:70px;
+  width:75px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -522,16 +512,16 @@ body {
 }
 #u38 {
   position:absolute;
-  left:150px;
-  top:287px;
-  width:70px;
+  left:140px;
+  top:245px;
+  width:75px;
   height:25px;
 }
 #u38_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:70px;
+  width:75px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -543,16 +533,16 @@ body {
 }
 #u39 {
   position:absolute;
-  left:246px;
-  top:287px;
-  width:70px;
+  left:240px;
+  top:245px;
+  width:75px;
   height:25px;
 }
 #u39_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:70px;
+  width:75px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -966,20 +956,20 @@ td.odometer {
 }
 
 table.tablesorter.car_table_class thead tr th {
-    padding-right: 15px;
+  padding-right: 15px;
 }
 
 #slider {
   position:absolute;
   left:150px;
-  top:245px;
+  top:292px;
   width:125px;
 }
 
 #slider_description {
   position: absolute;
   left: 280px;
-  top: 245px;
+  top: 292px;
   width: 30px;
   font-family: 'ArialMT', 'Arial';
   font-weight: 400;

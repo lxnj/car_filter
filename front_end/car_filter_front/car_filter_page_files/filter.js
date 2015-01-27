@@ -57,7 +57,8 @@ $(function() {
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all",
+                    "price_max": "INF", "odometer_max": "INF"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
@@ -96,8 +97,6 @@ $(function() {
                 .append($("<td></td>").text(item['make']))
                 .append($("<td></td>").text(item['model']))
                 .append($("<td></td>").text(item['year']))
-                .append($("<td></td>").text(item['engine']))
-                .append($("<td></td>").text(item['type']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
                 .append($('<td></td>').text(item['condition']))
                 .append($("<td></td>").text(item['color']))
