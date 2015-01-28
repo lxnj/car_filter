@@ -440,16 +440,16 @@ body {
 }
 #u36 {
   position:absolute;
-  left:140px;
+  left:130px;
   top:156px;
-  width:75px;
+  /*width:75px;*/
   height:25px;
 }
 #u36_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:75px;
+  width:86px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -493,14 +493,14 @@ body {
   position:absolute;
   left:240px;
   top:156px;
-  width:75px;
+  /*width:75px;*/
   height:25px;
 }
 #u37_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:75px;
+  width:86px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -512,16 +512,16 @@ body {
 }
 #u38 {
   position:absolute;
-  left:140px;
+  left:135px;
   top:245px;
-  width:75px;
+  /*width:75px;*/
   height:25px;
 }
 #u38_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:75px;
+  width:80px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -535,14 +535,14 @@ body {
   position:absolute;
   left:240px;
   top:245px;
-  width:75px;
+  /*width:75px;*/
   height:25px;
 }
 #u39_input {
   position:absolute;
   left:0px;
   top:0px;
-  width:75px;
+  width:80px;
   height:25px;
   font-family:'ArialMT', 'Arial';
   font-weight:400;
@@ -1016,6 +1016,9 @@ table.tablesorter tbody td {
 table.tablesorter tbody tr.odd td {
   background-color:#F0F0F6;
 }
+table.tablesorter tbody tr.even td {
+  background-color:#FFFFFF;
+}
 table.tablesorter thead tr .headerSortUp {
   background-image: url(asc.gif);
 }
@@ -1023,7 +1026,7 @@ table.tablesorter thead tr .headerSortDown {
   background-image: url(desc.gif);
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-background-color: #8dbdd8;
+  background-color: #8dbdd8;
 }
 
 .pager {
@@ -1037,4 +1040,3 @@ background-color: #8dbdd8;
   width: 100px;
   height: 30px;
 }
-

@@ -109,6 +109,7 @@ $(function() {
         setTimeout(function () {
           panel.find(".car_table_class")
             .tablesorterPager({
+              size: 20,
               container: $(".pager", panel),
               positionFixed: false
             });
@@ -139,7 +140,10 @@ $(function() {
     }
   });
 
-  $(".car_table_class").tablesorter({widthFixed: true, widgets: ['zebra']});
+  $(".car_table_class").tablesorter({
+    widthFixed: true,
+    widgets: ['zebra']
+  });
   // $("#cars_table_0").tablesorter({widthFixed: true})
   //   .tablesorterPager({container: $("#pager-0")});
   // $("#cars_table_1").tablesorter({widthFixed: true})
