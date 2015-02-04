@@ -55,6 +55,14 @@ public class PropertiesReader {
         return Integer.parseInt(properties.getProperty("ODOMETER_MAX"));
     }
 
+    public int getYearMin(){
+        return Integer.parseInt(properties.getProperty("YEAR_MIN"));
+    }
+
+    public int getYearMax(){
+        return Integer.parseInt(properties.getProperty("YEAR_MAX"));
+    }
+
     public double getConditionMin(){
         return Double.parseDouble(properties.getProperty("CONDITION_MIN"));
     }

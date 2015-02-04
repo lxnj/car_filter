@@ -21,6 +21,7 @@ public class Car {
     int run;
     String saleDate;
     String color;
+    String abstractStr;
 
     public String getMake() {
         return make;
@@ -126,6 +127,14 @@ public class Car {
         this.color = color;
     }
 
+    public String getAbstractStr() {
+        return abstractStr;
+    }
+
+    public void setAbstractStr(String abstractStr) {
+        this.abstractStr = abstractStr;
+    }
+
     public Car(ResultSet rs){
         try {
             make = rs.getString("make");
@@ -152,8 +161,9 @@ public class Car {
 
             engine = rs.getString("engine");
             ln = rs.getInt("lane");
-            saleDate = rs.getDate("saleDate").toString();
             run = rs.getInt("run");
+            abstractStr = rs.getString("abstract");
+            saleDate = rs.getDate("saleDate").toString();
         } catch (SQLException e) {
             e.printStackTrace();
         }
