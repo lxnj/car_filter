@@ -43,7 +43,7 @@ $(function() {
                           actualDate.getMonth(),
                           actualDate.getDate() + daysFromToday); 
       var nth = date.getDay();
-      if (nth == 0 || nth == 6) {
+      if (nth == 0 || nth == 1 || nth == 6) {
         continue;
       }
       $($("#daytabs").find("a")[i])
@@ -51,6 +51,7 @@ $(function() {
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
       i += 1;
+      if (i >= 4) break;
     }
   })();
 
@@ -127,13 +128,7 @@ $(function() {
     );
   }
 
-  $('#u10').click( function() {
-    var index = $( "#daytabs" ).tabs('option', 'active');
-    var li = $($( "#daytabs" ).find('li')[index]);
-    var panel = $($( "#daytabs .tab_panel" )[index]);
-    fetchCars(li, panel);
-  });
-
+  
   $( "#daytabs" ).tabs({
     beforeActivate: function( event, ui ) {
       fetchCars(ui.newTab, ui.newPanel);
@@ -155,4 +150,13 @@ $(function() {
   // $("#cars_table_4").tablesorter({widthFixed: true})
   //   .tablesorterPager({container: $("#pager-4")});
 
+  function searchClicked() {
+    var index = $( "#daytabs" ).tabs('option', 'active');
+    var li = $($( "#daytabs" ).find('li')[index]);
+    var panel = $($( "#daytabs .tab_panel" )[index]);
+    fetchCars(li, panel);
+  }
+
+  $('#u10').click(searchClicked);
+  searchClicked();
 });
