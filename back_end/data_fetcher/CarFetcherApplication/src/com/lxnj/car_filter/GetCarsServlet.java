@@ -33,9 +33,14 @@ public class GetCarsServlet extends HttpServlet {
 
         String make = request.getParameter("make");
         String model = request.getParameter("model");
-        int year = 0;
-        if(request.getParameter("year") != null){
-            year = Integer.parseInt(request.getParameter("year"));
+
+        int year_min = propertiesReader.getYearMin();
+        if(request.getParameter("year_min") != null) {
+            year_min = Math.max(Integer.parseInt(request.getParameter("year_min")), year_min);
+        }
+        int year_max = propertiesReader.getYearMax();
+        if(request.getParameter("year_max") != null){
+            year_max = Math.min(Integer.parseInt(request.getParameter("year_max")), year_max);
         }
 
         int odometer_min = propertiesReader.getOdometerMin();
@@ -80,13 +85,8 @@ public class GetCarsServlet extends HttpServlet {
             querySB.append("lower(model) = " + "'" + model + "' and\n");
         }
 
-        if (year != 0) {
-            if(year == -2006){
-                querySB.append("year <= 2006 and\n");
-            }
-            else
-                querySB.append("year >= " + year + " and\n");
-        }
+        querySB.append("year >= " + year_min + " and\n");
+        querySB.append("year <= " + year_max + " and\n");
 
         querySB.append("miles >= " + odometer_min + " and\n");
         querySB.append("miles <= " + odometer_max + " and\n");
