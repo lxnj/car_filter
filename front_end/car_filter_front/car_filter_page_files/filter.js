@@ -97,6 +97,7 @@ $(function() {
                 .append($("<td></td>").text(item['run']))
                 .append($("<td></td>").text(item['make']))
                 .append($("<td></td>").text(item['model']))
+                .append($("<td></td>").text(item['abstractStr'].substr((item['year'] + ' ' + item['make'] + ' ').length)))
                 .append($("<td></td>").text(item['year']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
                 .append($('<td></td>').text(item['condition']))
@@ -110,7 +111,7 @@ $(function() {
         setTimeout(function () {
           panel.find(".car_table_class")
             .tablesorterPager({
-              size: 20,
+              size: 50,
               container: $(".pager", panel),
               positionFixed: false
             });
