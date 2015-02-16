@@ -971,6 +971,7 @@ table.tablesorter.car_table_class thead tr th {
   top:75px;
   width:880px;
   min-height: 350px;
+  margin-bottom: 50px;
 }
 
 /* tables */
