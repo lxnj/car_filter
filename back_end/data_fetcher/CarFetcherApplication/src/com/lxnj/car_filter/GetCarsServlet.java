@@ -143,6 +143,8 @@ public class GetCarsServlet extends HttpServlet {
             mapper.writeValue(writer, candidateCars);
             writer.flush();
             writer.close();
+
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
