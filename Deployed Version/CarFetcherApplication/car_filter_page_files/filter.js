@@ -43,7 +43,7 @@ $(function() {
                           actualDate.getMonth(),
                           actualDate.getDate() + daysFromToday); 
       var nth = date.getDay();
-      if (nth == 0 || nth == 6) {
+      if (nth == 0 || nth == 1 || nth == 6) {
         continue;
       }
       $($("#daytabs").find("a")[i])
@@ -51,13 +51,15 @@ $(function() {
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
       i += 1;
+      if (i >= 4) break;
     }
   })();
 
   function fetchFormParameters() {
     var list = $('form#formSearch').serialize().split("&");
     var i, pair, serialized = "", parameters = [];
-    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all"};
+    var defaults = {"make": "Make", "model": "Model", "year": "Year", "color": "all",
+                    "price_max": "INF", "odometer_max": "INF"};
     //remove defaults and empty strings
     for (i = 0; i < list.length; ++i) {
       pair = list[i].split("=");
@@ -95,9 +97,8 @@ $(function() {
                 .append($("<td></td>").text(item['run']))
                 .append($("<td></td>").text(item['make']))
                 .append($("<td></td>").text(item['model']))
+                .append($("<td></td>").text(item['abstractStr'].substr((item['year'] + ' ' + item['make'] + ' ').length)))
                 .append($("<td></td>").text(item['year']))
-                .append($("<td></td>").text(item['engine']))
-                .append($("<td></td>").text(item['type']))
                 .append($('<td class="odometer"></td>').text(numberWithCommas(item['odometer'])))
                 .append($('<td></td>').text(item['condition']))
                 .append($("<td></td>").text(item['color']))
@@ -105,18 +106,22 @@ $(function() {
                 .append($('<td class="price"></td>').text("$" + numberWithCommas(item['price']))))
             ;
           });
-          panel.find(".car_table_class").trigger("update");
+        }
+        panel.find(".car_table_class").trigger("update");
+        setTimeout(function () {
+          panel.find(".car_table_class")
+            .tablesorterPager({
+              size: 50,
+              container: $(".pager", panel),
+              positionFixed: false
+            });
+        }, 0);
+        if (!(data && data.length)) {
           setTimeout(function () {
-            panel.find(".car_table_class")
-              .tablesorterPager({
-                container: $(".pager", panel),
-                positionFixed: false
-              });
-          }, 0);
-        } else {
-          panel.find(".car_table_class tbody")
+            panel.find(".car_table_class tbody")
             .append($("<tr></tr>")
               .append($('<td colspan="12"></td>').text("There is no car on this day satisfied now. Coming soon.")));
+          }, 200);
         }
         
       },
@@ -124,20 +129,17 @@ $(function() {
     );
   }
 
-  $('#u10').click( function() {
-    var index = $( "#daytabs" ).tabs('option', 'active');
-    var li = $($( "#daytabs" ).find('li')[index]);
-    var panel = $($( "#daytabs .tab_panel" )[index]);
-    fetchCars(li, panel);
-  });
-
+  
   $( "#daytabs" ).tabs({
     beforeActivate: function( event, ui ) {
       fetchCars(ui.newTab, ui.newPanel);
     }
   });
 
-  $(".car_table_class").tablesorter({widthFixed: true, widgets: ['zebra']});
+  $(".car_table_class").tablesorter({
+    widthFixed: true,
+    widgets: ['zebra']
+  });
   // $("#cars_table_0").tablesorter({widthFixed: true})
   //   .tablesorterPager({container: $("#pager-0")});
   // $("#cars_table_1").tablesorter({widthFixed: true})
@@ -149,5 +151,13 @@ $(function() {
   // $("#cars_table_4").tablesorter({widthFixed: true})
   //   .tablesorterPager({container: $("#pager-4")});
 
-});
+  function searchClicked() {
+    var index = $( "#daytabs" ).tabs('option', 'active');
+    var li = $($( "#daytabs" ).find('li')[index]);
+    var panel = $($( "#daytabs .tab_panel" )[index]);
+    fetchCars(li, panel);
+  }
 
+  $('#u10').click(searchClicked);
+  searchClicked();
+});
