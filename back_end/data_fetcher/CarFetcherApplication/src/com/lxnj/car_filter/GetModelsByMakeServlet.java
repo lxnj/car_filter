@@ -25,8 +25,12 @@ public class GetModelsByMakeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (conn == null) {
-            conn = DBConnector.getConnection();
+        try {
+            if (conn == null || conn.isClosed()) {
+                conn = DBConnector.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         String make = request.getParameter("make");
@@ -57,6 +61,8 @@ public class GetModelsByMakeServlet extends HttpServlet {
             mapper.writeValue(writer, models);
             writer.flush();
             writer.close();
+
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

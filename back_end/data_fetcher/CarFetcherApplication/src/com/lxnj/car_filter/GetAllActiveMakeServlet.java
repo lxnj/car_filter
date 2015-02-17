@@ -25,8 +25,12 @@ public class GetAllActiveMakeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (conn == null) {
-            conn = DBConnector.getConnection();
+        try {
+            if (conn == null || conn.isClosed()) {
+                conn = DBConnector.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         String queryStr = "select distinct make\nfrom car order by make;";
@@ -55,6 +59,8 @@ public class GetAllActiveMakeServlet extends HttpServlet {
             mapper.writeValue(writer, models);
             writer.flush();
             writer.close();
+
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

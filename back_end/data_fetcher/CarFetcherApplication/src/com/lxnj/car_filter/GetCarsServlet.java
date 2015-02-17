@@ -27,8 +27,12 @@ public class GetCarsServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (conn == null) {
-            conn = DBConnector.getConnection();
+        try {
+            if (conn == null || conn.isClosed()) {
+                conn = DBConnector.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         String make = request.getParameter("make");
