@@ -32,6 +32,7 @@ public class DBConnector {
             config.setMinConnectionsPerPartition(MinConnectionPerPartition);
             config.setMaxConnectionsPerPartition(MaxConnectionPerPartition);
             config.setPartitionCount(partitionCount);
+            config.setDisableConnectionTracking(true);
             connectionPool = new BoneCP(config); // setup the connection pool
 
         } catch (ClassNotFoundException e) {
