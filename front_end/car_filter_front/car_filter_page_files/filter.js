@@ -41,13 +41,14 @@ $(function() {
     for (i = 0, daysFromToday = 0; i <= $("#daytabs").find("li").length; ++daysFromToday) {
       var date = new Date(actualDate.getFullYear(),
                           actualDate.getMonth(),
-                          actualDate.getDate() + daysFromToday); 
+                          actualDate.getDate() + daysFromToday);
       var nth = date.getDay();
-      if (nth == 0 || nth == 1 || nth == 6) {
+      if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
         continue;
       }
       $($("#daytabs").find("a")[i])
-        .text(weekday[nth]);
+        .text($.datepicker.formatDate('M d', date))
+        .attr('title', weekday[nth]);
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
       i += 1;
