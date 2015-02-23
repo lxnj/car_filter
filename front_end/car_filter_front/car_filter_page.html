@@ -423,13 +423,16 @@
 
     <div id="calculatorBox" class="ax_text_field">
       <form onsubmit="refreshCalculation(); return false;">
-        <p>　Estimate Total price = <br/>(Bid price + X) * 1.09 + 团购费 + Documentation Fee + DMV Fee</p>
+        <p>Estimate Total Price (tax included) = <br/>(Bid Price + X) * 1.09 + Groupon Auction Fee + Documentation Fee + DMV Fee</p>
         <br/>
-        <p>注：</p>
-        <p>　X是客户愿意在起拍价之上加的价格。</p>
-        <p>　Bid在$15000以下的车团购费只需$500，成交价在$15000-$25000团购费用为$550, 之后bid price在每涨10k，团购费涨50刀。</p>
-        <p>　Documentation Fee: $95. Document transfer fee between dealer and auction</p>
-        <p>　DMV Fee在$100-$350之间</p>
+        <p>Note:</p>
+        <p>1. X: The extra add for bid.</p>
+        <p>2. Groupon Auction Fee: </p>
+        <p style="text-indent:10px">i.  $500 for cars with final bid (Bid + X) under $15000 </p>
+        <p style="text-indent:10px">ii. $550 for cars with final bid from $15000 to $25000</p>
+        <p style="text-indent:10px">iii: extra $50 adding along with every $10k adding in final bid. </p>
+        <p>3. Documentation Fee: $95. (Document transfer fee between dealer and auction)</p>
+        <p>4. DMV Fee: $100 ~ $350. (Depends on the status of car registration)</p>
         <br/>
         
         <p>(<input id="calculator_bid" value="Bid" type="text"> + <input id="calculator_addition" value="X" type="text">) * 1.09<br/>

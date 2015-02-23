@@ -166,12 +166,12 @@ $(function() {
     var bidprice = parseFloat($('#calculator_bid').val().replace('$', '').replace(',', ''));
     var X = parseFloat($('#calculator_addition').val().replace('$', '').replace(',', ''));
     if (!isNaN(bidprice)) {
-      var tuangouFee = 500;
-      if (bidprice >= 15000) {
-        tuangouFee = 500 + parseInt((bidprice - 5001) / 10000) * 50;
-      }
-      $('#calculator_tuangou').val(tuangouFee);
       if (!isNaN(X)) {
+        var tuangouFee = 500;
+        if (bidprice + X >= 15000) {
+          tuangouFee = 500 + parseInt((bidprice + X - 5000) / 10000) * 50;
+        }
+        $('#calculator_tuangou').val(tuangouFee);
         var minimalFee = (bidprice + X) * 1.09 + tuangouFee + 95;
         $('#calculator_result').val("" + parseInt(minimalFee + 100) + "~" + parseInt(minimalFee + 350));
       } else {
