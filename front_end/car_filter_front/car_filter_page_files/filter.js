@@ -160,4 +160,34 @@ $(function() {
 
   $('#u10').click(searchClicked);
   searchClicked();
+
+  // Calculator Box
+  function refreshCalculation() {
+    var bidprice = parseFloat($('#calculator_bid').val().replace('$', '').replace(',', ''));
+    var X = parseFloat($('#calculator_addition').val().replace('$', '').replace(',', ''));
+    if (!isNaN(bidprice)) {
+      var tuangouFee = 500;
+      if (bidprice >= 15000) {
+        tuangouFee = 500 + parseInt((bidprice - 5001) / 10000) * 50;
+      }
+      $('#calculator_tuangou').val(tuangouFee);
+      if (!isNaN(X)) {
+        var minimalFee = (bidprice + X) * 1.09 + tuangouFee + 95;
+        $('#calculator_result').val("" + parseInt(minimalFee + 100) + "~" + parseInt(minimalFee + 350));
+      } else {
+        $('#calculator_result').val("Please input a number in X");
+      }
+    }
+  }
+  
+  $("#calculatorBox input").on( "focusout", function() {
+    refreshCalculation();
+  } );
+  $("#cars_table_0").on('click', 'tr', function(event) {
+    var bidprice = parseFloat($('.price', this).text().replace('$', '').replace(',', ''));
+    if (!isNaN(bidprice)) {
+      $('#calculator_bid').val(bidprice);
+    }
+    refreshCalculation();
+  });
 });

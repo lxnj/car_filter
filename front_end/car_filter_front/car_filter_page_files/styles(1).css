@@ -1057,3 +1057,25 @@ kbd {
   top:518px;
   width:267px;
 }
+
+#calculatorBox {
+  position:absolute;
+  left:70px;
+  top:618px;
+  width:245px;
+  margin-bottom: 50px;
+  opacity: 0.9;
+  border: 1px solid #848484;
+  -moz-border-radius: 11px;
+  -webkit-border-radius: 11px;
+  border-radius: 11px;
+  padding: 15px 13px 20px 13px;
+}
+
+#calculatorBox input {
+  width: 88px;
+}
+input#calculator_result {
+  width: 230px;
+  font-weight: bold;
+}
