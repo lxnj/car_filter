@@ -1,5 +1,6 @@
 package com.lxnj.car_filter;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -55,7 +56,7 @@ public class GetModelsByMakeServlet extends HttpServlet {
             String[] models = new String[rowNum];
 
             for (int i = 0; i < rowNum; i++) {
-                models[i] = rs.getString("model");
+                models[i] = WordUtils.capitalizeFully(rs.getString("model"), '-', ' ');
                 rs.next();
             }
             mapper.writeValue(writer, models);

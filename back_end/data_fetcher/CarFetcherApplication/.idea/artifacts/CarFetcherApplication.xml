@@ -13,6 +13,7 @@
           <element id="library" level="project" name="bonecp-0.8.0.RELEASE" />
           <element id="library" level="project" name="jackson-all-1.8.10" />
           <element id="library" level="project" name="mysql-connector-java-5.1.18-bin" />
+          <element id="library" level="project" name="commons-lang3-3.3.2" />
         </element>
       </element>
     </root>

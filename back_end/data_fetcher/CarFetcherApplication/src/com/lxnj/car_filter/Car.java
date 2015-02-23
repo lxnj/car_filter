@@ -1,7 +1,10 @@
 package com.lxnj.car_filter;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -138,7 +141,7 @@ public class Car {
     public Car(ResultSet rs){
         try {
             make = rs.getString("make");
-            model = rs.getString("model");
+            model = WordUtils.capitalizeFully(rs.getString("model"), ' ', '-');
             year = rs.getInt("year");
             vin = rs.getString("vin");
             odometer = rs.getInt("miles");
@@ -162,10 +165,35 @@ public class Car {
             engine = rs.getString("engine");
             ln = rs.getInt("lane");
             run = rs.getInt("run");
-            abstractStr = rs.getString("abstract");
+            abstractStr = trimAbstract(model, rs.getString("abstract"));
+
             saleDate = rs.getDate("saleDate").toString();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String trimAbstract(String model, String abstractStr){
+        HashMap<String, Boolean> abstractMap = new HashMap<String, Boolean>();
+        HashMap<String, String> modelMap = new HashMap<String, String>();
+
+        String[] modelTerms = model.split(" ");
+        for(String modelTerm : modelTerms){
+            modelMap.put(modelTerm.toLowerCase(), modelTerm);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String[] terms = abstractStr.split(" ");
+        for(String term : terms){
+            if(modelMap.containsKey(term.toLowerCase())){
+                term = modelMap.get(term.toLowerCase());
+            }
+            if(!abstractMap.containsKey(term)){
+                sb.append(term + " ");
+                abstractMap.put(term, true);
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 }
