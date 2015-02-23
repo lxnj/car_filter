@@ -138,7 +138,6 @@ $(function() {
   });
 
   $(".car_table_class").tablesorter({
-    widthFixed: true,
     widgets: ['zebra']
   });
   // $("#cars_table_0").tablesorter({widthFixed: true})
