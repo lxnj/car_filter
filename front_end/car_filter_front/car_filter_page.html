@@ -423,18 +423,19 @@
 
     <div id="calculatorBox" class="ax_text_field">
       <form onsubmit="refreshCalculation(); return false;">
-        <p>　Estimate Total price(tax not included) = <br/>(Bid price +X)*1.09+团购费+95+DMV Fee</p>
+        <p>　Estimate Total price = <br/>(Bid price + X) * 1.09 + 团购费 + Documentation Fee + DMV Fee</p>
         <br/>
         <p>注：</p>
         <p>　X是客户愿意在起拍价之上加的价格。</p>
         <p>　Bid在$15000以下的车团购费只需$500，成交价在$15000-$25000团购费用为$550, 之后bid price在每涨10k，团购费涨50刀。</p>
+        <p>　Documentation Fee: $95. Document transfer fee between dealer and auction</p>
         <p>　DMV Fee在$100-$350之间</p>
         <br/>
         
         <p>(<input id="calculator_bid" value="Bid" type="text"> + <input id="calculator_addition" value="X" type="text">) * 1.09<br/>
         + <input id="calculator_tuangou" type="text" readonly="" disabled="disabled"><br/>
-        + 95<br/>
-        + DMV Fee ($100~$350) <br/>
+        + $95 (Documentation Fee)<br/>
+        + $100~$350 (DMV Fee) <br/>
         = <input id="calculator_result" type="text" value="Please input a number in X" readonly></p>
         <br/>
 
@@ -728,7 +729,7 @@
                 <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
                 <th scope="col" class="table_color">Color</th>
                 <th scope="col" class="table_vin">VIN</th>
-                <th scope="col" class="table_bid" title="Final Price = Bid + Service Fee ($500 ~ $550)">Bid*</th>
+                <th scope="col" class="table_bid" title="Starting price">Bid*</th>
 
               </tr>
             </thead>
@@ -784,7 +785,7 @@
                 <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
                 <th scope="col" class="table_color">Color</th>
                 <th scope="col" class="table_vin">VIN</th>
-                <th scope="col" class="table_bid" title="Final Price = Bid + Service Fee ($500 ~ $550)">Bid*</th>
+                <th scope="col" class="table_bid" title="Starting price">Bid*</th>
 
               </tr>
             </thead>
@@ -840,7 +841,7 @@
                 <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
                 <th scope="col" class="table_color">Color</th>
                 <th scope="col" class="table_vin">VIN</th>
-                <th scope="col" class="table_bid" title="Final Price = Bid + Service Fee ($500 ~ $550)">Bid*</th>
+                <th scope="col" class="table_bid" title="Starting price">Bid*</th>
 
               </tr>
             </thead>
@@ -896,7 +897,7 @@
                 <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
                 <th scope="col" class="table_color">Color</th>
                 <th scope="col" class="table_vin">VIN</th>
-                <th scope="col" class="table_bid" title="Final Price = Bid + Service Fee ($500 ~ $550)">Bid*</th>
+                <th scope="col" class="table_bid" title="Starting price">Bid*</th>
 
               </tr>
             </thead>
