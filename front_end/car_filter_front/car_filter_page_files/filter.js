@@ -183,7 +183,7 @@ $(function() {
   $("#calculatorBox input").on( "focusout", function() {
     refreshCalculation();
   } );
-  $("#cars_table_0").on('click', 'tr', function(event) {
+  $(".car_table_class").on('click', 'tr', function(event) {
     var bidprice = parseFloat($('.price', this).text().replace('$', '').replace(',', ''));
     if (!isNaN(bidprice)) {
       $('#calculator_bid').val(bidprice);
