@@ -179,12 +179,20 @@ $(function() {
       }
     }
   }
+
+  selectedRows = [];
   
   $("#calculatorBox input").on( "focusout", function() {
     refreshCalculation();
   } );
   $(".car_table_class").on('click', 'tr', function(event) {
     var bidprice = parseFloat($('.price', this).text().replace('$', '').replace(',', ''));
+    while (selectedRows.length > 0) {
+      var tr = selectedRows.pop();
+      $(tr).css('outline', '');
+    }
+    selectedRows.push(this);
+    $(this).css('outline', 'thin solid blue');
     if (!isNaN(bidprice)) {
       $('#calculator_bid').val(bidprice);
     }

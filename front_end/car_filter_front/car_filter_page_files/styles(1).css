@@ -1079,3 +1079,20 @@ input#calculator_result {
   width: 230px;
   font-weight: bold;
 }
+
+input#calculator_addition{
+    color: red;
+}
+.variable_X {
+    color: red;
+}
+.variable_GrouponAuctionFee {
+    color: orange;
+}
+.variable_DocumentationFee {
+    color: purple;
+}
+.variable_DMVFee {
+    color: green;
+}
+

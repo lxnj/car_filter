@@ -423,22 +423,22 @@
 
     <div id="calculatorBox" class="ax_text_field">
       <form onsubmit="refreshCalculation(); return false;">
-        <p>Estimate Total Price (tax included) = <br/>(Bid Price + X) * 1.09 + Groupon Auction Fee + Documentation Fee + DMV Fee</p>
+        <p>Estimate Total Price (tax included) = <br/>(Bid Price + <span class="variable_X">X</span>) * 1.09 + <span class="variable_GrouponAuctionFee">Groupon Auction Fee</span> + <span class="variable_DocumentationFee">Documentation Fee</span> + <span class="variable_DMVFee">DMV Fee</span></p>
         <br/>
         <p>Note:</p>
-        <p>1. X: The extra add for bid.</p>
-        <p>2. Groupon Auction Fee: </p>
+        <p>1. <span class="variable_X">X</span>: The extra add for bid.</p><br/>
+        <p>2. <span class="variable_GrouponAuctionFee">Groupon Auction Fee</span>: </p>
         <p style="text-indent:10px">i.  $500 for cars with final bid (Bid + X) under $15000 </p>
         <p style="text-indent:10px">ii. $550 for cars with final bid from $15000 to $25000</p>
-        <p style="text-indent:10px">iii: extra $50 adding along with every $10k adding in final bid. </p>
-        <p>3. Documentation Fee: $95. (Document transfer fee between dealer and auction)</p>
-        <p>4. DMV Fee: $100 ~ $350. (Depends on the status of car registration)</p>
+        <p style="text-indent:10px">iii: extra $50 adding along with every $10k adding in final bid. </p><br/>
+        <p>3. <span class="variable_DocumentationFee">Documentation Fee</span>: $95. (Document transfer fee between dealer and auction)</p><br/>
+        <p>4. <span class="variable_DMVFee">DMV Fee</span>: $100 ~ $350. (Depends on the status of car registration)</p>
         <br/>
         
         <p>(<input id="calculator_bid" value="Bid" type="text"> + <input id="calculator_addition" value="X" type="text">) * 1.09<br/>
-        + <input id="calculator_tuangou" type="text" readonly="" disabled="disabled"><br/>
-        + $95 (Documentation Fee)<br/>
-        + $100~$350 (DMV Fee) <br/>
+        + <input id="calculator_tuangou" type="text" readonly="" disabled="disabled">(<span class="variable_GrouponAuctionFee">Groupon Auction Fee</span>)<br/>
+        + $95 (<span class="variable_DocumentationFee">Documentation Fee</span>)<br/>
+        + $100~$350 (<span class="variable_DMVFee">DMV Fee</span>) <br/>
         = <input id="calculator_result" type="text" value="Please input a number in X" readonly></p>
         <br/>
 
