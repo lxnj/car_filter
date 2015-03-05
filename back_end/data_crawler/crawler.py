@@ -1,6 +1,6 @@
 
 import requests
-import re, urllib, time, sys
+import re, urllib, time, sys, pickle, os
 from bs4 import BeautifulSoup
 import MySQLdb
 
@@ -23,6 +23,8 @@ CUSTOM_HEADER = {
     'Accept-Language': 'en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,zh-TW;q=0.2'}
 CUSTOM_HEADER['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
 
+COOKIE_FILENAME = "cookies.txt"
+
 
 class xDB(object):
     """database operations"""
@@ -41,6 +43,8 @@ class xDB(object):
         self.__conn.commit()
         self.cursor.close()
         self.__conn.close()
+    def commit(self):
+        self.__conn.commit()
 
     def insertSingleCarInfo(self, car):
         sql = "INSERT INTO car(VehicleId, Lane, Run, " \
@@ -49,7 +53,12 @@ class xDB(object):
               "Miles, Color, VIN, Price, SaleDate) " \
               "VALUES(%s,%s,%s,%s,%s," \
               "%s,%s,%s,%s,%s," \
-              "%s,%s,%s,%s,%s)"
+              "%s,%s,%s,%s,%s)" \
+              "ON DUPLICATE KEY UPDATE " \
+              "Lane=VALUES(Lane), Run=VALUES(Run), Year=VALUES(Year), Make=VALUES(Make)," \
+              "Model=VALUES(Model), Abstract=VALUES(Abstract), `Condition`=VALUES(`Condition`)," \
+              "`Engine`=VALUES(`Engine`), Type=VALUES(Type), Miles=VALUES(Miles)," \
+              "Color=VALUES(Color), VIN=VALUES(VIN), Price=VALUES(Price), SaleDate=VALUES(SaleDate)"
         try:
             res = self.cursor.execute(sql,
                                   (car["vehicleId"], car["lane"], car["run"],
@@ -60,11 +69,23 @@ class xDB(object):
         except Exception, e:
             # print "Failed an item:"
             # print car
+            # print sql
             # traceback.print_exc(file=sys.stdout)
             return 0
         #self.__conn.commit()
         #self.cursor.executemany()
         return 1
+
+def save_cookies(requests_cookiejar, filename = COOKIE_FILENAME):
+    with open(filename, 'wb') as f:
+        pickle.dump(requests_cookiejar, f)
+
+def load_cookies(filename = COOKIE_FILENAME):
+    try:
+        with open(filename, 'rb') as f:
+            return pickle.load(f)
+    except:
+        return None
 
 def login():
     s = requests.session()
@@ -78,6 +99,7 @@ def login():
                     "authenticity_token": res[0],
                     "user[username]": USERNAME,
                     "user[password]": PASSWORD,
+                    "remember": "1",
                     "submit": "Login"
                 })
     r = s.post("https://www.manheim.com/login/authenticate", data=payload, headers=CUSTOM_HEADER)
@@ -86,7 +108,70 @@ def login():
         f.write(r.text)
     return s
 
+def isLoggedIn(response):
+    #res = re.findall('user\[username\]', response.text)
+    if not response or response.status_code != 200:
+        return False
+    pos = response.url.find(u'www.manheim.com/login')
+    if pos == -1:
+        return True
+    else:
+        return False
 
+class SerializedSession(object):
+    """store cookies"""
+    def __init__(self):
+        self.reload_cookies()
+
+    def reload_cookies(self):
+        self.session = requests.session()
+        cookies = load_cookies()
+        if cookies != None:
+            self.session.cookies = cookies
+
+    def get(self, URL):
+        r = self.session.get(URL, headers=CUSTOM_HEADER)
+        if not isLoggedIn(r):
+            r = self.noreplay_login('GET', URL)
+        return r
+    def post(self, URL, data):
+        r = self.session.post(URL, data, headers=CUSTOM_HEADER)
+        if not isLoggedIn(r):
+            r = self.noreplay_login('POST', URL, data)
+        return r
+
+    def noreplay_login(self, method, URL, data=None):
+        loggingInProgressFilename = "logginginprogress.txt"
+        for looper in range(3):
+            if not os.path.exists(loggingInProgressFilename):
+                open(loggingInProgressFilename, 'a').close()
+                # races to the first place
+                s = login()
+                if str(method).upper() == "GET":
+                    r = s.get(URL, headers=CUSTOM_HEADER)
+                else:
+                    r = s.post(URL, data, headers=CUSTOM_HEADER)
+                if isLoggedIn(r):
+                    save_cookies(s.cookies)
+                    self.session = s
+                else:
+                    r = None
+                try:
+                    os.remove(loggingInProgressFilename)
+                except:
+                    pass
+                return r
+            else:
+                # wait for others to perform log in
+                time.sleep(3)
+                self.reload_cookies()
+                if str(method).upper() == "GET":
+                    r = self.session.get(URL, headers=CUSTOM_HEADER)
+                else:
+                    r = self.session.post(URL, data, headers=CUSTOM_HEADER)
+                if isLoggedIn(r):
+                    return r
+        return None
 
 
 def parseRow(tr):
@@ -157,7 +242,7 @@ def parsePage(html_doc, db):
         if row:
             #print row
             score += db.insertSingleCarInfo(row)
-    return score
+    return (score, count)
 
 def fetchPage(session, saleDate, pageno = 1):
     offset = 250 * (pageno - 1)
@@ -225,7 +310,7 @@ def fetchPage(session, saleDate, pageno = 1):
             ('wtTracker', '(wtSearchType,PowerSearch Advanced)(wtRefLinkPrefix,ps_srchfm_)(wtSavedSearchRefLink,)(wtSavedSearchTypeLink,)'),
             ('searchResultsOffset', offset)]
 
-    r = session.post(SEARCH_URL, data=param, headers=CUSTOM_HEADER)
+    r = session.post(SEARCH_URL, data=param)
     filename = 'data_%s_%d.html' % (time.strftime("%Y%m%d", time.strptime(saleDate, "%m/%d/%Y")), pageno)
     with open(filename, 'w') as f:
         f.write(r.text)
@@ -243,38 +328,55 @@ def parseNumberOfVehicles(html_doc):
     else:
         return None
 
-def crawlDataOfDay(daysFromToday=0):
-    db = xDB()
-    db.connect()
-    session = login()
+def crawlDataOfDay(daysFromToday=0, db=None, session=None):
+    dbNewlyOpened = False
+    if not db:
+        db = xDB()
+        db.connect()
+        dbNewlyOpened = True
     if not session:
-        exit(1)
-    print "Login success!"
+        session = SerializedSession()
     saleDate = time.strftime("%m/%d/%Y", time.localtime())  #"01/07/2015"
     targetDate = datetime.date.today() + datetime.timedelta(days=daysFromToday)
     saleDate = targetDate.strftime("%m/%d/%Y")  #"01/07/2015"
-    html_doc = fetchPage(session, saleDate)
-    npages = (parseNumberOfVehicles(html_doc) - 1) / 250 + 1
-    print "Total %d pages for %s." % (npages, saleDate)
 
     pageno = 1
-    print "Processing page %d:" % pageno
-    numOfInsertedItems = parsePage(html_doc, db)
-    print "Page %d complete! Inserted %d item(s)." % (pageno, numOfInsertedItems)
-
-    for pageno in range(2, npages+1):
-        print "Processing page %d:" % pageno
+    while True:
         html_doc = fetchPage(session, saleDate, pageno)
-        numOfInsertedItems = parsePage(html_doc, db)
-        print "Page %d complete! Inserted %d item(s)." % (pageno, numOfInsertedItems)
+        if pageno == 1:
+            npages = (parseNumberOfVehicles(html_doc) - 1) / 250 + 1
+            print "Total %d pages for %s." % (npages, saleDate)
+        print "Processing page %d:" % pageno
+        numOfInsertedItems, count = parsePage(html_doc, db)
+        print "Page %d complete! Inserted %d item(s) of all %d item(s)." % (pageno, numOfInsertedItems, count)
+        pageno += 1
+        if pageno > npages:
+            break
 
+    if dbNewlyOpened:
+        db.close()
+
+def crawlDays(listOfDays):
+    db = xDB()
+    db.connect()
+    session = SerializedSession()
+    print "Login success!"
+    for d in listOfDays:
+        try:
+            daysFromToday = int(d)
+        except ValueError, e:
+            print e
+            continue
+        crawlDataOfDay(daysFromToday, db, session)
+        db.commit()
     db.close()
+
 
 if __name__ == "__main__":
     # testParsePage()
     parser = argparse.ArgumentParser(description='Crawler for Manheim.com')
-    parser.add_argument('-d', action="store", dest="daysFromToday", type=int)
+    parser.add_argument('-d', action="append", dest="daysList", default=[],
+                        help="Add daysFromToday values to task queue (repeatedly)")
     opts = parser.parse_args(sys.argv[1:])
-    if opts.daysFromToday == None:
-        opts.daysFromToday = 0
-    crawlDataOfDay(opts.daysFromToday)
+    if len(opts.daysList) != 0:
+        crawlDays(opts.daysList)
