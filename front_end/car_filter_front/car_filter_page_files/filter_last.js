@@ -38,7 +38,7 @@ $(function() {
     var weekday= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var actualDate = new Date(); // actual date
     var i, daysFromToday;
-    for (i = 0, daysFromToday = 0; i < $("#daytabs").find("li").length; ++daysFromToday) {
+    for (i = $("#daytabs").find("li").length - 1, daysFromToday = -1; i >= 0; --daysFromToday) {
       var date = new Date(actualDate.getFullYear(),
                           actualDate.getMonth(),
                           actualDate.getDate() + daysFromToday);
@@ -51,7 +51,7 @@ $(function() {
         .attr('title', weekday[nth]);
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
-      i += 1;
+      i -= 1;
     }
   })();
 
