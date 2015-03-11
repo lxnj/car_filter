@@ -199,4 +199,21 @@ $(function() {
     }
     refreshCalculation();
   });
+    
+    
+    
+  function placeholder(selector, defaultValue) {
+    $(selector).data('holder', $(selector).attr('placeholder'));
+
+    $(selector).focusin(function () {
+      if ($(this).attr('placeholder') == defaultValue)
+        $(this).attr('placeholder', '');
+    });
+    $(selector).focusout(function () {
+      if ($(this).attr('placeholder') == '')
+        $(this).attr('placeholder', $(this).data('holder'));
+    });
+  }
+  placeholder('#calculator_bid', 'Click a car');
+  placeholder('#calculator_addition', 'X');
 });

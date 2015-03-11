@@ -1081,18 +1081,23 @@ input#calculator_result {
 }
 
 input#calculator_addition{
-    color: red;
+/*    color: red;*/
+    font-weight: bold;
 }
 .variable_X {
-    color: red;
+/*    color: red;*/
+    font-weight: bold;
 }
 .variable_GrouponAuctionFee {
-    color: orange;
+/*    color: orange;*/
+    font-weight: bold;
 }
 .variable_DocumentationFee {
-    color: purple;
+/*    color: purple;*/
+    font-weight: bold;
 }
 .variable_DMVFee {
-    color: green;
+/*    color: green;*/
+    font-weight: bold;
 }
 
