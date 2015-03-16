@@ -1079,6 +1079,7 @@ kbd {
 input#calculator_result {
   width: 230px;
   font-weight: bold;
+  font-size: 16px;
 }
 
 input#calculator_addition{

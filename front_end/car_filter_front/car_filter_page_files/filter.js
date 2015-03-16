@@ -33,26 +33,63 @@ $(function() {
     }
   });
 
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameter = sURLVariables[i].split('=');
+        if (sParameter.length == 2 && sParameter[0] == sParam) {
+            return decodeURIComponent(sParameter[1].replace(/\+/g, " "));
+        }
+    }
+  }
+
   // set day of week for tabs' names
   (function() {
     var weekday= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var actualDate = new Date(); // actual date
     var i, daysFromToday;
-    for (i = 0, daysFromToday = 0; i < $("#daytabs").find("li").length; ++daysFromToday) {
-      var date = new Date(actualDate.getFullYear(),
-                          actualDate.getMonth(),
-                          actualDate.getDate() + daysFromToday);
-      var nth = date.getDay();
-      if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
-        continue;
-      }
+
+    function setTabToDate(tabIndex, date) {
       $($("#daytabs").find("a")[i])
         .text($.datepicker.formatDate('M d', date))
         .attr('title', weekday[nth]);
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
-      i += 1;
     }
+
+    if (getUrlParameter("week") == "-1") {
+      $("#weeklink")
+        .attr("href", "./car_filter_page.html")
+        .text("See data of current week");
+      for (i = $("#daytabs").find("li").length - 1, daysFromToday = -1; i >= 0; --daysFromToday) {
+        var date = new Date(actualDate.getFullYear(),
+                            actualDate.getMonth(),
+                            actualDate.getDate() + daysFromToday);
+        var nth = date.getDay();
+        if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
+          continue;
+        }
+        setTabToDate(i, date);
+        i -= 1;
+      }
+    } else {  //current week
+      $("#weeklink")
+        .attr("href", "./car_filter_page.html?week=-1")
+        .text("See data of last week");
+      for (i = 0, daysFromToday = 0; i < $("#daytabs").find("li").length; ++daysFromToday) {
+        var date = new Date(actualDate.getFullYear(),
+                            actualDate.getMonth(),
+                            actualDate.getDate() + daysFromToday);
+        var nth = date.getDay();
+        if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
+          continue;
+        }
+        setTabToDate(i, date);
+        i += 1;
+      }
+    }
+    
   })();
 
   function fetchFormParameters() {
