@@ -209,7 +209,7 @@ $(function() {
         }
         $('#calculator_tuangou').val(tuangouFee);
         var minimalFee = (bidprice + X) * 1.09 + tuangouFee + 95;
-        $('#calculator_result').val("" + parseInt(minimalFee + 100) + "~" + parseInt(minimalFee + 350));
+        $('#calculator_result').val("" + parseInt(minimalFee));
       } else {
         $('#calculator_result').val("Please input a number in X");
       }
