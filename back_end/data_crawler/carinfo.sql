@@ -146,3 +146,44 @@ INSERT INTO `car` (`VIN`, `VehicleId`, `Lane`, `Run`, `Year`, `Make`, `Model`, `
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+CREATE TABLE IF NOT EXISTS `cardetail` (
+  `VehicleId` char(30) NOT NULL,
+  `Year` int(11) NOT NULL,
+  `Make` char(30) NOT NULL,
+  `Model` char(30) NOT NULL,
+  `TrimLevel` char(30) NOT NULL,
+  `Odometer` char(30) NOT NULL,
+  `InServiceDate` char(30) NOT NULL,
+  `FuelType` char(30) NOT NULL,
+  `Engine` char(30) NOT NULL,
+  `Displacement` char(30) NOT NULL,
+  `Transmission` char(30) NOT NULL,
+  `ExteriorColor` char(30) NOT NULL,
+  `InteriorColor` char(30) NOT NULL,
+  `WindowSticker` char(30) NOT NULL,
+  `VIN` char(30) NOT NULL,
+  `BodyStyle` char(30) NOT NULL,
+  `Doors` char(30) NOT NULL,
+  `VehicleType` char(30) NOT NULL,
+  `Salvage` char(30) NOT NULL,
+  `AsIs` char(30) NOT NULL,
+  `TitleState` char(30) NOT NULL,
+  `TitleStatus` char(30) NOT NULL,
+  `DriveTrain` char(30) NOT NULL,
+  `InteriorType` char(30) NOT NULL,
+  `TopType` char(30) NOT NULL,
+  `Stereo` char(30) NOT NULL,
+  `Airbags` char(30) NOT NULL,
+  PRIMARY KEY (`VehicleId`)/*,
+  FOREIGN KEY (`VehicleId`) REFERENCES car(`VehicleId`)*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `carimages` (
+  imageId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `VehicleId` char(30) NOT NULL,
+  `imageURL` char(200) NOT NULL/*,
+  FOREIGN KEY (`VehicleId`) REFERENCES car(`VehicleId`)*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

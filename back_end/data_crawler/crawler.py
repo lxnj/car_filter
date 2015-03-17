@@ -75,6 +75,89 @@ class xDB(object):
         #self.__conn.commit()
         #self.cursor.executemany()
         return 1
+    def insertSingleCarDetailInfo(self, VehicleId, carDetail):
+        sql = "INSERT INTO cardetail(`VehicleId`, " \
+              "`Year`, `Make`, `Model`, `TrimLevel`, `Odometer`, " \
+              "`InServiceDate`, `FuelType`, `Engine`, `Displacement`, `Transmission`, " \
+              "`ExteriorColor`, `InteriorColor`, `WindowSticker`, `VIN`, `BodyStyle`, " \
+              "`Doors`, `VehicleType`, `Salvage`, `AsIs`, `TitleState`, " \
+              "`TitleStatus`, `DriveTrain`, `InteriorType`, `TopType`, `Stereo`, " \
+              "`Airbags`) " \
+              "VALUES(%s," \
+              "%s,%s,%s,%s,%s," \
+              "%s,%s,%s,%s,%s," \
+              "%s,%s,%s,%s,%s," \
+              "%s,%s,%s,%s,%s," \
+              "%s,%s,%s,%s,%s," \
+              "%s) " \
+              "ON DUPLICATE KEY UPDATE " \
+          "`VehicleId`=VALUES(`VehicleId`)," \
+              "`Year`=VALUES(`Year`)," \
+              "`Make`=VALUES(`Make`)," \
+              "`Model`=VALUES(`Model`)," \
+              "`TrimLevel`=VALUES(`TrimLevel`)," \
+          "`Odometer`=VALUES(`Odometer`)," \
+              "`InServiceDate`=VALUES(`InServiceDate`)," \
+              "`FuelType`=VALUES(`FuelType`)," \
+              "`Engine`=VALUES(`Engine`)," \
+              "`Displacement`=VALUES(`Displacement`)," \
+          "`Transmission`=VALUES(`Transmission`)," \
+              "`ExteriorColor`=VALUES(`ExteriorColor`)," \
+              "`InteriorColor`=VALUES(`InteriorColor`)," \
+              "`WindowSticker`=VALUES(`WindowSticker`)," \
+              "`VIN`=VALUES(`VIN`)," \
+          "`BodyStyle`=VALUES(`BodyStyle`)," \
+              "`Doors`=VALUES(`Doors`)," \
+              "`VehicleType`=VALUES(`VehicleType`)," \
+              "`Salvage`=VALUES(`Salvage`)," \
+              "`AsIs`=VALUES(`AsIs`)," \
+          "`TitleState`=VALUES(`TitleState`)," \
+              "`TitleStatus`=VALUES(`TitleStatus`)," \
+              "`DriveTrain`=VALUES(`DriveTrain`)," \
+              "`InteriorType`=VALUES(`InteriorType`)," \
+              "`TopType`=VALUES(`TopType`)," \
+          "`Stereo`=VALUES(`Stereo`)," \
+              "`Airbags`=VALUES(`Airbags`)"
+        try:
+            res = self.cursor.execute(sql,
+                                  (VehicleId,
+                                   carDetail[0], carDetail[1], carDetail[2], carDetail[3], carDetail[4], 
+                                   carDetail[5], carDetail[6], carDetail[7], carDetail[8], carDetail[9], 
+                                   carDetail[10], carDetail[11], carDetail[12], carDetail[13], carDetail[14], 
+                                   carDetail[15], carDetail[16], carDetail[17], carDetail[18], carDetail[19], 
+                                   carDetail[20], carDetail[21], carDetail[22], carDetail[23], carDetail[24], 
+                                   carDetail[25]))
+            print 'vehicle detail inserted.'
+        except Exception, e:
+            print "Failed an item:"
+            print VehicleId
+            print carDetail
+            traceback.print_exc(file=sys.stdout)
+            return 0
+        #self.__conn.commit()
+        #self.cursor.executemany()
+        return 1
+    def insertSingleCarImages(self, VehicleId, carImages):
+        sql = "INSERT INTO carimages(`VehicleId`, `imageURL`) "
+        parts = [" SELECT %s,%s "]
+        sql = sql + " UNION ".join(parts * len(carImages))
+        params = []
+        for url in carImages:
+            params += [VehicleId, url]
+        try:
+            res = self.cursor.execute(sql, params)
+            print 'Inserted %d vehicle images.' % len(carImages)
+        except Exception, e:
+            print "Failed an item:"
+            print sql
+            print VehicleId
+            print carImages
+            traceback.print_exc(file=sys.stdout)
+            return 0
+        #self.__conn.commit()
+        #self.cursor.executemany()
+        return 1
+
 
 def save_cookies(requests_cookiejar, filename = COOKIE_FILENAME):
     with open(filename, 'wb') as f:
@@ -370,6 +453,71 @@ def crawlDays(listOfDays):
         crawlDataOfDay(daysFromToday, db, session)
         db.commit()
     db.close()
+
+
+def parseSingleCarPage(vehicleUniqueId, html_doc, db):
+    soup = BeautifulSoup(html_doc)
+    vehInformation = soup.find_all('div', 'vehInformation')[0]
+    dts = vehInformation.find_all('dt')
+    """[<dt>Condition</dt>, <dt>VIN</dt>, <dt>Odometer</dt>, <dt>Exterior / Interior</dt>, <dt>Seller</dt>,
+     <dt>MMR</dt>, <dt>Pickup Location</dt>, <dt>Vehicle Location</dt>, <dt>Vehicle History</dt>]"""
+    dds = vehInformation.find_all('dd')
+
+    vdpTab_detail = soup.find(id="vdpTab_detail-1")
+    hms = vdpTab_detail.find_all('div', 'ui-hm')
+    labels = [i.find('label').getText()[:-1] for i in hms]
+    """[u'Year', u'Make', u'Model', u'Trim Level', u'Odometer', u'In-Service Date', u'Fuel Type',
+    u'Engine', u'Displacement', u'Transmission', u'Exterior Color', u'Interior Color', u'Window Sticker',
+    u'VIN', u'Body Style', u'Doors', u'Vehicle Type', u'Salvage', u'As Is', u'Title State', 
+    u'Title Status', u'Drive Train', u'Interior Type', u'Top Type', u'Stereo', u'Airbags']"""
+    carDetail = [i.find('span').getText().strip() for i in hms]
+    """[u'2015', u'BMW', u'X Series', u'Not Available', u'67 mi', u'Not Available', u'Gasoline',
+    u'6 Cylinder', u'3.5 L', u'Automatic', u'White', u'Black', u'Not Available',
+    u'5UXKR0C55F0K55739', u'Not Available', u'Not Available', u'SUV', u'No', u'No', u'Not Available',
+    u'Not Available', u'All Wheel Drive', u'Leather', u'Not Available', u'CD Player', u'Dual, Side']"""
+    #print carDetail
+
+
+    slider = soup.find(id="thumbnail-slider")
+    thumbnails = slider.find_all('img')
+    thumbnailURLs = [image.attrs['src'] for image in thumbnails]
+    #u'https://images.cdn.manheim.com/20150316223718-4579fc17-6959-43b8-8286-4cff74bbbc24/small.jpg'
+    #to
+    #u'https://images.cdn.manheim.com/20150316223718-4579fc17-6959-43b8-8286-4cff74bbbc24.jpg'
+    fullimageURLs = [url[:-10] + '.jpg' for url in thumbnailURLs]
+
+    ret = db.insertSingleCarDetailInfo(vehicleUniqueId, carDetail)
+    if ret == 1:
+        ret2 = db.insertSingleCarImages(vehicleUniqueId, fullimageURLs)
+        if ret2 == 1:
+            return 1
+        else:
+            return 2
+    else:
+        return -1
+
+
+def fetchSingleCar(session, vehicleUniqueId):
+    SINGLE_CAR_URL = "https://www.manheim.com/members/powersearch/vehicleDetails.do?vehicleUniqueId=%s#vdp" % (vehicleUniqueId)
+    r = session.get(SINGLE_CAR_URL)
+    filename = 'car_%s.html' % (vehicleUniqueId)
+    with open(filename, 'w') as f:
+        f.write(r.text.encode("UTF-8"))
+    #print r.text
+    return r.text
+
+
+def crawlSingleCar(vehicleUniqueId = "SIMULCAST.CADE.12299578", session=None):
+    db = xDB()
+    db.connect()
+    session = SerializedSession()
+    print "Login success!"
+    html_doc = fetchSingleCar(session, vehicleUniqueId)
+    ret = parseSingleCarPage(vehicleUniqueId, html_doc, db)
+    db.commit()
+    db.close()
+    return ret
+    
 
 
 if __name__ == "__main__":
