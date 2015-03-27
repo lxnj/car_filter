@@ -33,26 +33,63 @@ $(function() {
     }
   });
 
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameter = sURLVariables[i].split('=');
+        if (sParameter.length == 2 && sParameter[0] == sParam) {
+            return decodeURIComponent(sParameter[1].replace(/\+/g, " "));
+        }
+    }
+  }
+
   // set day of week for tabs' names
   (function() {
     var weekday= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var actualDate = new Date(); // actual date
     var i, daysFromToday;
-    for (i = 0, daysFromToday = 0; i <= $("#daytabs").find("li").length; ++daysFromToday) {
-      var date = new Date(actualDate.getFullYear(),
-                          actualDate.getMonth(),
-                          actualDate.getDate() + daysFromToday); 
-      var nth = date.getDay();
-      if (nth == 0 || nth == 1 || nth == 6) {
-        continue;
-      }
+
+    function setTabToDate(tabIndex, date) {
       $($("#daytabs").find("a")[i])
-        .text(weekday[nth]);
+        .text($.datepicker.formatDate('M d', date))
+        .attr('title', weekday[nth]);
       $($("#daytabs .tab_panel")[i])
         .attr("date-data", $.datepicker.formatDate('yy-mm-dd', date)); //2015-01-19
-      i += 1;
-      if (i >= 4) break;
     }
+
+    if (getUrlParameter("week") == "-1") {
+      $("#weeklink")
+        .attr("href", "./car_filter_page.html")
+        .text("See data of current week");
+      for (i = $("#daytabs").find("li").length - 1, daysFromToday = -1; i >= 0; --daysFromToday) {
+        var date = new Date(actualDate.getFullYear(),
+                            actualDate.getMonth(),
+                            actualDate.getDate() + daysFromToday);
+        var nth = date.getDay();
+        if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
+          continue;
+        }
+        setTabToDate(i, date);
+        i -= 1;
+      }
+    } else {  //current week
+      $("#weeklink")
+        .attr("href", "./car_filter_page.html?week=-1")
+        .text("See data of last week");
+      for (i = 0, daysFromToday = 0; i < $("#daytabs").find("li").length; ++daysFromToday) {
+        var date = new Date(actualDate.getFullYear(),
+                            actualDate.getMonth(),
+                            actualDate.getDate() + daysFromToday);
+        var nth = date.getDay();
+        if (nth == 0 || nth == 1 || nth == 5 || nth == 6) {
+          continue;
+        }
+        setTabToDate(i, date);
+        i += 1;
+      }
+    }
+    
   })();
 
   function fetchFormParameters() {
@@ -137,7 +174,6 @@ $(function() {
   });
 
   $(".car_table_class").tablesorter({
-    widthFixed: true,
     widgets: ['zebra']
   });
   // $("#cars_table_0").tablesorter({widthFixed: true})
@@ -160,4 +196,61 @@ $(function() {
 
   $('#u10').click(searchClicked);
   searchClicked();
+
+  // Calculator Box
+  function refreshCalculation() {
+    var bidprice = parseFloat($('#calculator_bid').val().replace('$', '').replace(',', ''));
+    var X = parseFloat($('#calculator_addition').val().replace('$', '').replace(',', ''));
+    if (!isNaN(bidprice)) {
+      if (!isNaN(X)) {
+        var tuangouFee = 500;
+        if (bidprice + X >= 15000) {
+          tuangouFee = 500 + parseInt((bidprice + X - 5000) / 10000) * 50;
+        }
+        $('#calculator_tuangou').val(tuangouFee);
+        var minimalFee = (bidprice + X) * 1.09 + tuangouFee + 95;
+        $('#calculator_result').val("" + parseInt(minimalFee));
+      } else {
+        $('#calculator_result').val("Please input a number in X");
+      }
+    }
+  }
+
+  selectedRows = [];
+  
+  $("#calculatorBox input").on( "focusout", function() {
+    refreshCalculation();
+  } );
+  $(".car_table_class").on('click', 'tr', function(event) {
+    if ($('.table_make', this).text().toLowerCase() != "make") {
+      while (selectedRows.length > 0) {
+        var tr = selectedRows.pop();
+        $(tr).css('outline', '');
+      }
+      selectedRows.push(this);
+      $(this).css('outline', 'thin solid blue');
+    }
+    var bidprice = parseFloat($('.price', this).text().replace('$', '').replace(',', ''));
+    if (!isNaN(bidprice)) {
+      $('#calculator_bid').val(bidprice);
+    }
+    refreshCalculation();
+  });
+    
+    
+    
+  function placeholder(selector, defaultValue) {
+    $(selector).data('holder', $(selector).attr('placeholder'));
+
+    $(selector).focusin(function () {
+      if ($(this).attr('placeholder') == defaultValue)
+        $(this).attr('placeholder', '');
+    });
+    $(selector).focusout(function () {
+      if ($(this).attr('placeholder') == '')
+        $(this).attr('placeholder', $(this).data('holder'));
+    });
+  }
+  placeholder('#calculator_bid', 'Click a car');
+  placeholder('#calculator_addition', 'X');
 });
