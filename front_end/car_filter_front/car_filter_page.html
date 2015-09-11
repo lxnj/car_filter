@@ -309,12 +309,7 @@
                   </select>
                 </div>
 
-                
-                
-                
-
-                
-
+                                                                
                 <!-- Unnamed (Text Field) -->
                 <div id="u13" class="ax_text_field">
                   <input id="u13_input" type="text" value="Condition:" readonly="">
@@ -437,7 +432,7 @@
             </div>
             <div id="holder"></div>
             <div id="more-or-less"><a id="showMore" href="javascript:toggleDetailOptions()">[+] More</a></div>
-            <div id="optional">
+              <div id="optional">
               <div id="vin_box">
                 <input class="labeltext" type="text" value="VIN:" readonly=""><input id="vin_input" type="text" name="vin">
               </div>
@@ -465,21 +460,20 @@
 
           <div id="calculatorBox" class="ax_text_field">
             <form onsubmit="refreshCalculation(); return false;">
-              <p>Estimate Total Price (tax included) = <br/>(Bid Price + <span class="variable_X">X</span>) * 1.09 + <span class="variable_GrouponAuctionFee">Groupon Auction Fee</span> + <span class="variable_DocumentationFee">Documentation Fee</span> + <span class="variable_DMVFee">DMV Fee</span></p>
+              <p>Estimate Total Price (tax included) = <br/>(Bid Price + <span class="variable_X">X</span>) * 1.09 + <span class="variable_ServiceFee"><b>Service Fee</b></span> <!--span class="variable_DocumentationFee">Documentation Fee</span> + <span class="variable_DMVFee">DMV Fee</span-->
+              </p>
               <br/>
               <p>Note:</p>
               <p>1. <span class="variable_X">X</span>: The extra add for bid.</p><br/>
-              <p>2. <span class="variable_GrouponAuctionFee">Groupon Auction Fee</span>: </p>
+              <p>2. <span class="variable_ServiceFee"><b>Service Fee</b></span>: </p>
               <p style="text-indent:10px">i.  $500 for cars with final bid (Bid + X) under $15000</p>
               <p style="text-indent:10px">ii. $550 for cars with final bid from $15000 to $25000</p>
               <p style="text-indent:10px">iii: extra $50 adding along with every $10k adding in final bid beyond $25000.</p><br/>
-              <p>3. <span class="variable_DocumentationFee">Documentation Fee</span>: $95. (Document transfer fee between dealer and auction)</p><br/>
-              <p>4. <span class="variable_DMVFee">DMV Fee</span>: $100 ~ $350. (Depends on the status of car registration)</p>
+              <p>3. <span class="variable_DMVFee">DMV Fee</span>: $100 ~ $350. (Depends on the status of car registration)</p>
               <br/>
               
-              <p>(<input id="calculator_bid" type="text" placeholder="Click a car"> + <input id="calculator_addition" type="text" placeholder="X">) * 1.09<br/>
-              + <input id="calculator_tuangou" type="text" readonly="" disabled="disabled">(<span class="variable_GrouponAuctionFee">Groupon Auction Fee</span>)<br/>
-              + $95 (<span class="variable_DocumentationFee">Documentation Fee</span>)<br/>
+              <p>(<input id="calculator_bid" type="text" placeholder="Click a car"> + <input id="calculator_addition" type="text" placeholder="X">) * 1.09<br/></br>
+              + <input id="calculator_tuangou" type="text" readonly="" disabled="disabled">(<span class="variable_ServiceFee">Service Fee</span>)<br/></br>
               = <input id="calculator_result" type="text" value="Please input a number in X" readonly></p>
               <br/>
 
@@ -519,14 +513,14 @@
               <table id="cars_table_0" class="ax_table car_table_class tablesorter">
                 <thead>
                   <tr>
-                    <th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
-                    <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th>
+                    <!--th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
+                    <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th-->
                     <th scope="col" class="table_make">Make</th>
                     <th scope="col" class="table_model">Model</th>
                     <th scope="col" class="table_abstract">Abstract</th>
                     <th scope="col" class="table_year">Year</th>
                     <th scope="col" class="table_mileage">Mileage</th>
-                    <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
+                    <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">Score*</th>
                     <th scope="col" class="table_color">Color</th>
                     <th scope="col" class="table_vin">VIN</th>
                     <th scope="col" class="table_bid" title="Starting price">Bid*</th>
@@ -595,14 +589,14 @@
             <table id="cars_table_1" class="ax_table car_table_class tablesorter">
               <thead>
                 <tr>
-                  <th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
-                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th>
+                  <!--th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
+                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th-->
                   <th scope="col" class="table_make">Make</th>
                   <th scope="col" class="table_model">Model</th>
                   <th scope="col" class="table_abstract">Abstract</th>
                   <th scope="col" class="table_year">Year</th>
                   <th scope="col" class="table_mileage">Mileage</th>
-                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
+                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">Score*</th>
                   <th scope="col" class="table_color">Color</th>
                   <th scope="col" class="table_vin">VIN</th>
                   <th scope="col" class="table_bid" title="Starting price">Bid*</th>
@@ -670,14 +664,14 @@
             <table id="cars_table_2" class="ax_table car_table_class tablesorter">
               <thead>
                 <tr>
-                  <th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
-                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th>
+                  <!--th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
+                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th-->
                   <th scope="col" class="table_make">Make</th>
                   <th scope="col" class="table_model">Model</th>
                   <th scope="col" class="table_abstract">Abstract</th>
                   <th scope="col" class="table_year">Year</th>
                   <th scope="col" class="table_mileage">Mileage</th>
-                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
+                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">Score*</th>
                   <th scope="col" class="table_color">Color</th>
                   <th scope="col" class="table_vin">VIN</th>
                   <th scope="col" class="table_bid" title="Starting price">Bid*</th>
@@ -745,14 +739,14 @@
             <table id="cars_table_3" class="ax_table car_table_class tablesorter">
               <thead>
                 <tr>
-                  <th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
-                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th>
+                  <!--th scope="col" class="table_lane" title="Cars in different lanes are sold out in parallel">Lane*</th>
+                  <th scope="col" class="table_run" title="Cars with smaller runs are likely to be sold out earlier">Run*</th-->
                   <th scope="col" class="table_make">Make</th>
                   <th scope="col" class="table_model">Model</th>
                   <th scope="col" class="table_abstract">Abstract</th>
                   <th scope="col" class="table_year">Year</th>
                   <th scope="col" class="table_mileage">Mileage</th>
-                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">CR*</th>
+                  <th scope="col" class="table_condition" title="Certificated condition report by mechanic (0 ~ 5)">Score*</th>
                   <th scope="col" class="table_color">Color</th>
                   <th scope="col" class="table_vin">VIN</th>
                   <th scope="col" class="table_bid" title="Starting price">Bid*</th>

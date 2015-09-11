@@ -5,15 +5,19 @@
          version="3.1">
     <servlet>
         <servlet-name>GetCarsServlet</servlet-name>
-        <servlet-class>com.lxnj.car_filter.GetCarsServlet</servlet-class>
+        <servlet-class>com.lxnj.car_filter.servlets.GetCarsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetModelsByMakeServlet</servlet-name>
-        <servlet-class>com.lxnj.car_filter.GetModelsByMakeServlet</servlet-class>
+        <servlet-class>com.lxnj.car_filter.servlets.GetModelsByMakeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetAllActiveMakeServlet</servlet-name>
-        <servlet-class>com.lxnj.car_filter.GetAllActiveMakeServlet</servlet-class>
+        <servlet-class>com.lxnj.car_filter.servlets.GetAllActiveMakeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetSingleCarServlet</servlet-name>
+        <servlet-class>com.lxnj.car_filter.servlets.GetSingleCarServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetCarsServlet</servlet-name>
@@ -26,5 +30,9 @@
     <servlet-mapping>
         <servlet-name>GetAllActiveMakeServlet</servlet-name>
         <url-pattern>/getAllMakes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetSingleCarServlet</servlet-name>
+        <url-pattern>/getSingleCar</url-pattern>
     </servlet-mapping>
 </web-app>

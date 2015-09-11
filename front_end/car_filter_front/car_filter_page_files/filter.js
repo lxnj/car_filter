@@ -208,7 +208,7 @@ $(function() {
           tuangouFee = 500 + parseInt((bidprice + X - 5000) / 10000) * 50;
         }
         $('#calculator_tuangou').val(tuangouFee);
-        var minimalFee = (bidprice + X) * 1.09 + tuangouFee + 95;
+        var minimalFee = (bidprice + X) * 1.09 + tuangouFee;
         $('#calculator_result').val("" + parseInt(minimalFee));
       } else {
         $('#calculator_result').val("Please input a number in X");
