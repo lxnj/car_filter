@@ -146,8 +146,8 @@ public class GetCarsServlet extends HttpServlet {
                     querySB.append("lower(type) = " + "'" + type + "' and\n");
                 }
                 */
-                querySB.append("ceil((GREATEST((price-5000), 0)/5000)) * 50 + 300 + price >= " + price_min + " and\n");
-                querySB.append("ceil((GREATEST((price-5000), 0)/5000)) * 50 + 300 + price <= " + price_max + " and\n");
+                querySB.append("auctionfee + price >= " + price_min + " and\n");
+                querySB.append("auctionfee + price <= " + price_max + " and\n");
             }
         }
 

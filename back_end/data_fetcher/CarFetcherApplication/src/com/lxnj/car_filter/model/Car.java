@@ -1,5 +1,6 @@
 package com.lxnj.car_filter.model;
 
+import com.lxnj.car_filter.utils.CarUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.sql.ResultSet;
@@ -157,7 +158,7 @@ public class Car {
                 price = "Not Available";
             }
             else {
-                int extra = (int)Math.max(0, Math.ceil((Double.parseDouble(price) - 5000)/5000.0))*50 + 300;
+                int extra = rs.getInt("auctionfee");
                 int finalPrince = Integer.parseInt(price) + extra;
                 price = finalPrince + "";
             }
